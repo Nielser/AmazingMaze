@@ -7,8 +7,7 @@ public abstract class IntelligentTile extends Tile{
 
     public void move(Direction direction){
         switch(direction){
-            case up:
-                break;
+            case up: break;
             case down: break;
             case left: break;
             case right: break;
