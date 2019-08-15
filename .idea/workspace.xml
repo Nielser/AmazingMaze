@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f4ede6b2-1a42-44a2-9db0-906cbf425dfe" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Scripts/Scripts.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/Scripts.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Scripts/src/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/src/Level.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Scripts/src/LevelGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/src/LevelGenerator.java" afterDir="false" />
-    </list>
+    <list default="true" id="f4ede6b2-1a42-44a2-9db0-906cbf425dfe" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +30,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Scripts/src/Level.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="578">
+            <state relative-caret-position="408">
               <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
             </state>
           </provider>
@@ -187,11 +182,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12727000" />
+    <option name="totallyTimeSpent" value="13181000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1928" y="352" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25426438" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -263,7 +257,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Scripts/src/Level.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
+        <state relative-caret-position="408">
           <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
         </state>
       </provider>
