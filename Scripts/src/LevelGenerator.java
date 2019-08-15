@@ -11,7 +11,6 @@ public class LevelGenerator {
 
     public LevelGenerator() {
         this.possibleLevels = getPossibleLevels();
-        System.out.println(possibleLevels.get(1));
     }
 
     private ArrayList<String> parseLevelFile() throws FileNotFoundException, IOException {   //read strings from levels.txt with \n as delimiter (newline)
