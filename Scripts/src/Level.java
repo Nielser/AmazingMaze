@@ -20,12 +20,43 @@ public class Level {
 
     public void levelCreate(String levelString) {
         //Get string and make a 2D Array
+        transformLevel();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 if (levelString.charAt(i + (j * width)) == '1')
                     tiles[i][j] = new WallTile(i * blockSize, j * blockSize, blockSize);
             }
         }
+    }
+
+    public void transformLevel(){
+
+        int z =  new Random().nextInt(3);
+        for(int i = 0; i<z; i++){
+            int r =  new Random().nextInt(5);
+            switch (r){
+                case 0:
+                    levelTranspo();
+                    break;
+                case 1:
+                    levelMirrorH();
+                    break;
+                case 2:
+                    levelMirrorV();
+                    break;
+                case 3:
+                    levelTurnLeft();
+                    break;
+                case 4:
+                    levelTurnRight();
+                    break;
+                // default:
+                //     return; ??
+            }
+        }
+
+
+
     }
 
     //Transponiert Levelmatrix
@@ -52,7 +83,7 @@ public class Level {
 
 
     //Spiegelt Vertikal
-    public void levelMirrorV(char[][] level2DCharArray){
+    public void levelMirrorV(){
         Tile[][] levelCopy = tiles.clone();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
@@ -61,6 +92,18 @@ public class Level {
             }
         }
     }
+    //drehen um 90°
+    public  void levelTurnRight(){
+        levelTranspo();
+        levelMirrorV();
+    }
+
+    //drehen um -90°
+    public  void levelTurnLeft(){
+        levelTranspo();
+        levelMirrorH();
+    }
+
 
     public void render(Graphics g) {
         for (int i = 0; i < width; i++) {

@@ -37,6 +37,7 @@ public class Player extends IntelligentTile implements KeyListener {
                 case KeyEvent.VK_D:
                 move(Direction.right); break;
 
+
         }
     }
 
