@@ -1,8 +1,8 @@
 import java.awt.*;
 
 public abstract class Tile {
-    private int pixelSize;
-    private int positionX,positionY;
+    protected int pixelSize;
+    protected int positionX,positionY;
     protected Color color;
 
     public Tile(int positionX,int positionY,int pixelSize){

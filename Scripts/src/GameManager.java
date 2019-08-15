@@ -1,11 +1,12 @@
 public class GameManager {
     private static volatile GameManager instance;
     private LevelGenerator levelGenerator;
-    //private Player player;
+    private Level currentLevel;
+    private Player player;
 
     public GameManager(){
+        //player = new Player();  #todo: how does play get position
         levelGenerator = new LevelGenerator();
-        //player = new Player();
         createLevel();
     }
 
@@ -22,7 +23,7 @@ public class GameManager {
     }
 
     private void createLevel(){
-        levelGenerator.createLevel();
+        currentLevel = levelGenerator.createLevel();
     }
     public void playerTakeDamage(int amount){
         player.takeDamage(amount);
@@ -34,5 +35,18 @@ public class GameManager {
     public int getCanvasHeight(){
         //#todo: returns pixel height of the game rectangle
         return 0;//dummyreturn
+    }
+
+    public void restart(){
+        //showDeathUI();
+        //openMenu();
+    }
+
+    public int getCanvasSize(){
+        return 0; //#todo: pixel size of rectangle
+    }
+
+    public boolean isTileWall(int x, int y){
+       return currentLevel.getTiles()[x][y] instanceof WallTile;
     }
 }

@@ -36,7 +36,7 @@ public class LevelGenerator {
         }
     }
 
-    public void createLevel() {
+    public Level createLevel() {
         if (possibleLevels.isEmpty()) {
             System.err.println("LevelFile empty");
         } else {
@@ -44,6 +44,7 @@ public class LevelGenerator {
             String levelString = possibleLevels.get(rand.nextInt() % possibleLevels.size());
             currentLevel = new Level(levelString);
         }
+        return currentLevel;
     }
 }
 
