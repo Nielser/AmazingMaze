@@ -1,8 +1,9 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Level {
 
-
+    //public ArrayList<Enemy> enemies;
     private int width;
     private int height;
     private int blockSize;
