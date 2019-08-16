@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -6,18 +7,30 @@ public class Player extends IntelligentTile implements KeyListener {
     public Player(int positionX, int positionY, int pixelSize, int speed, int health) {
         super(positionX, positionY, pixelSize, speed);
         this.health = health>0?health:1;
+        this.color = Color.YELLOW;
     }
 
     public void takeDamage(int amount){
         health -=amount;
-        if(health>=0){
+        if(health<=0){
             die();
         }
     }
 
     public void die(){
-        GameManager.getInstance().restart();
+        GameManager.getInstance().playerDied();
     }
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public void keyTyped(KeyEvent e) {

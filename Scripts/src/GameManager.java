@@ -5,7 +5,7 @@ public class GameManager {
     private Player player;
 
     public GameManager(){
-        //player = new Player();  #todo: how does play get position
+        //player = new Player();
         levelGenerator = new LevelGenerator();
         createLevel();
     }
@@ -37,7 +37,7 @@ public class GameManager {
         return 0;//dummyreturn
     }
 
-    public void restart(){
+    public void playerDied(){
         //showDeathUI();
         //openMenu();
     }

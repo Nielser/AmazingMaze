@@ -5,15 +5,13 @@ import java.util.Random;
 //quick levelgen mockup
 public class LevelGenerator {
     final static String LEVEL_PATH = "Resources/levels.txt";
-
     private ArrayList<String> possibleLevels;
-    public Level currentLevel;
 
     public LevelGenerator() {
         this.possibleLevels = getPossibleLevels();
     }
 
-    private ArrayList<String> parseLevelFile() throws FileNotFoundException, IOException {   //read strings from levels.txt with \n as delimiter (newline)
+    private ArrayList<String> parseLevelFile() throws IOException {   //read strings from Resources/levels.txt with \n as delimiter (newline)
         ArrayList<String> parsedLevels = new ArrayList<>();
         try (FileInputStream fs = new FileInputStream(new File(LEVEL_PATH));
              InputStreamReader ir = new InputStreamReader(fs);
@@ -25,18 +23,21 @@ public class LevelGenerator {
         return parsedLevels;
     }
 
-    private ArrayList<String> getPossibleLevels() { //#Todo fix returns
-        ArrayList<String> parsedLevels = null;
+    private ArrayList<String> getPossibleLevels() {
+        ArrayList<String> parsedLevels = new ArrayList<>();
         try {
             parsedLevels = parseLevelFile();
-            return parsedLevels;
+
         } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return new ArrayList();
+            System.err.println("levels.txt does not contain levels or does not exist \n"+e.getMessage());
+        }
+        finally{
+            return parsedLevels;
         }
     }
 
     public Level createLevel() {
+        Level currentLevel = null;
         if (possibleLevels.isEmpty()) {
             System.err.println("LevelFile empty");
         } else {
@@ -48,13 +49,6 @@ public class LevelGenerator {
     }
 }
 
-/*
- * 0    ->[]
- * 1    ->[]
- * 2    ->[]
- * 3    ->[]
- * 4    ->[]
- * */
 
 
 

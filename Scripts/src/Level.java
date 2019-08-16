@@ -1,59 +1,56 @@
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Level {
-
     //public ArrayList<Enemy> enemies;
     private int width;
     private int height;
-    private int blockSize;
+    private int tilePixelSize;
     private Tile[][] tiles;
 
 
     public Level(String levelString){
-        width = (int)Math.sqrt(levelString.length());
-        height = width;
-        blockSize = GameManager.getInstance().getCanvasSize()/width;
-        levelCreate(levelString);
+        width = height = (int)Math.sqrt(levelString.length());
+        tilePixelSize = GameManager.getInstance().getCanvasSize()/width;
+        createLevel(levelString);
+        transformLevel();
     }
 
 
-    public void levelCreate(String levelString) {
-        //Get string and make a 2D Array
-
+    public void createLevel(String levelString) {
+        tiles = new Tile[width][height];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 if (levelString.charAt(i + (j * width)) == '1')
-                    tiles[i][j] = new WallTile(i * blockSize, j * blockSize, blockSize);
+                    tiles[i][j] = new WallTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize);
             }
         }
         transformLevel();
     }
 
     public void transformLevel(){
-
-        int z =  new Random().nextInt(3);
-        for(int i = 0; i<z; i++){
-            int r =  new Random().nextInt(5);
-            switch (r){
+        Random rand = new Random(System.currentTimeMillis());
+        int transformCount = rand.nextInt(3);
+        for(int i = 0; i<transformCount; i++){
+            int transformationIndex = rand.nextInt(5);
+            switch (transformationIndex){
                 case 0:
-                    levelTranspo();
+                    transposeLevel();
                     break;
                 case 1:
-                    levelMirrorH();
+                    mirrorLevelHorizontally();
                     break;
                 case 2:
-                    levelMirrorV();
+                    mirrorLevelVertically();
                     break;
                 case 3:
-                    levelTurnLeft();
+                    rotateLevelLeft();
                     break;
                 case 4:
-                    levelTurnRight();
+                    rotateLevelRight();
                     break;
-                // default: Dont know shit about this
-                //     return; ??
+                default:
+                    System.err.println("Level.transformLevel(): Random index out of bounds!");
             }
         }
 
@@ -62,7 +59,7 @@ public class Level {
     }
 
     //Transponiert Levelmatrix
-    public void levelTranspo() {
+    public void transposeLevel() {
         Tile[][] levelCopy = tiles.clone();
         for (int i = 0; i < width; i++) {
             for(int j = 0; j< height;j++){
@@ -73,37 +70,38 @@ public class Level {
     }
 
     //Spiegelt LevelMatrix Horizontal
-    public void levelMirrorH() {
-            Tile[][] levelCopy = tiles.clone();
+    public void mirrorLevelHorizontally() {
+        Tile[][] tilesCopy = tiles.clone();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 if(tiles[i][j]!=null)
-                    tiles[i][j]=levelCopy[width-1-i][j];
+                    tiles[i][j]=tilesCopy[width-1-i][j];
             }
         }
     }
 
 
-    //Spiegelt Vertikal
-    public void levelMirrorV(){
-        Tile[][] levelCopy = tiles.clone();
+    //#todo: duplicate code: mirrorLevelHorizontaly() -> might be reasonable to combine into one function but need more input
+    public void mirrorLevelVertically(){
+        Tile[][] tilesCopy = tiles.clone();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 if(tiles[i][j]!=null)
-                    tiles[i][j]=levelCopy[i][height-1-j];
+                    tiles[i][j]=tilesCopy[i][height-1-j];
             }
         }
     }
-    //drehen um 90°
-    public  void levelTurnRight(){
-        levelTranspo();
-        levelMirrorV();
+
+    //rotate 90° clockwise
+    public  void rotateLevelRight(){
+        transposeLevel();
+        mirrorLevelVertically();
     }
 
-    //drehen um -90°
-    public  void levelTurnLeft(){
-        levelTranspo();
-        levelMirrorH();
+    //rotate 90° counter-clockwise
+    public  void rotateLevelLeft(){
+        transposeLevel();
+        mirrorLevelHorizontally();
     }
 
 
