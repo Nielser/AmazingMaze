@@ -11,7 +11,7 @@ public class Level {
 
     public Level(String levelString){
         width = height = (int)Math.sqrt(levelString.length());
-        tilePixelSize = GameManager.getInstance().getCanvasHeight()/width;
+        tilePixelSize = 800;//GameManager.getInstance().getCanvasHeight()/width;
         createLevel(levelString);
         transformLevel();
     }
@@ -53,9 +53,6 @@ public class Level {
                     System.err.println("Level.transformLevel(): Random index out of bounds!");
             }
         }
-
-
-
     }
 
     //Transponiert Levelmatrix

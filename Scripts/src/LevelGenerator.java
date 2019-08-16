@@ -2,7 +2,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-//quick levelgen mockup
 public class LevelGenerator {
     final static String LEVEL_PATH = "Resources/levels.txt";
     private ArrayList<String> possibleLevels;
