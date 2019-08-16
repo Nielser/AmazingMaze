@@ -42,9 +42,12 @@ public class LevelGenerator {
             System.err.println("LevelFile empty");
         } else {
             Random rand = new Random(System.currentTimeMillis());
-            String levelString = possibleLevels.get(rand.nextInt() % possibleLevels.size());
+            int val = rand.nextInt() % possibleLevels.size();
+            System.out.println(possibleLevels.size()+"|"+val);
+            String levelString = possibleLevels.get(0);
             currentLevel = new Level(levelString);
         }
+        System.out.println("LG");
         return currentLevel;
     }
 }
