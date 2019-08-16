@@ -11,7 +11,7 @@ public class Level {
 
     public Level(String levelString){
         width = height = (int)Math.sqrt(levelString.length());
-        tilePixelSize = GameManager.getInstance().getCanvasSize()/width;
+        tilePixelSize = GameManager.getInstance().getCanvasHeight()/width;
         createLevel(levelString);
         transformLevel();
     }

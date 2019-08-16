@@ -1,9 +1,8 @@
-public class GameManager {
+public class GameManager{
     private static volatile GameManager instance;
     private LevelGenerator levelGenerator;
     private Level currentLevel;
     private Player player;
-
     public GameManager(){
         //player = new Player();
         levelGenerator = new LevelGenerator();
@@ -30,7 +29,6 @@ public class GameManager {
     }
 
     public void LevelFinished(){
-        //#todo: Fade out with black squares and load new level
     }
     public int getCanvasHeight(){
         //#todo: returns pixel height of the game rectangle
@@ -40,10 +38,6 @@ public class GameManager {
     public void playerDied(){
         //showDeathUI();
         //openMenu();
-    }
-
-    public int getCanvasSize(){
-        return 0; //#todo: pixel size of rectangle
     }
 
     public boolean isTileWall(int x, int y){
