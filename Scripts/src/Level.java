@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Level {
 
@@ -20,13 +21,14 @@ public class Level {
 
     public void levelCreate(String levelString) {
         //Get string and make a 2D Array
-        transformLevel();
+
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 if (levelString.charAt(i + (j * width)) == '1')
                     tiles[i][j] = new WallTile(i * blockSize, j * blockSize, blockSize);
             }
         }
+        transformLevel();
     }
 
     public void transformLevel(){

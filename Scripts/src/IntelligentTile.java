@@ -43,4 +43,4 @@ public abstract class IntelligentTile extends Tile {
         }
         return false;
     }
-}x
+}
