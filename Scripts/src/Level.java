@@ -52,7 +52,7 @@ public class Level {
                 case 4:
                     levelTurnRight();
                     break;
-                // default:
+                // default: Dont know shit about this
                 //     return; ??
             }
         }
