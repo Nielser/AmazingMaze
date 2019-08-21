@@ -41,9 +41,7 @@ public class Level {
                         tiles[i][j] = null;
                         System.err.println("Level.createLevel(): unknown TileType");
                 }
-
-
-            }
+             }
         }
     }
 

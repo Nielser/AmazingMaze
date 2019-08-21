@@ -25,7 +25,7 @@ public class Player extends IntelligentTile {
 
             switch (e.getCode()){
                 case UP:
-                case W:  up = stillMoving;
+                case W: up = stillMoving;
                     break;
                 case DOWN:
                 case S: down = stillMoving;
@@ -38,13 +38,6 @@ public class Player extends IntelligentTile {
                     break;
                 default:
                 }
-
             }
-
-
-
-
-
-
     }
 
