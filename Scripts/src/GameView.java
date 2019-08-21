@@ -1,15 +1,22 @@
-import javafx.scene.layout.Pane;
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
 
 public class GameView {
-    Pane pane;
+    Group group;
     public GameView(ArrayList<Tile> tiles){
-        pane = new Pane();
-        pane.getChildren().addAll(tiles);
+        group.getChildren().addAll(tiles);
+        for(Node t: group.getChildren()){
+            if(t instanceof Tile){
+                ((Tile) t).render();
+            }
+        }
     }
 
-    public Pane getView(){
-        return pane;
+    public Group getView(){
+        return group;
     }
 }

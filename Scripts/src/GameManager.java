@@ -1,3 +1,4 @@
+import javafx.scene.Group;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
@@ -17,9 +18,9 @@ public class GameManager {
         gameView = new GameView(getLevelTiles());
     }
 
-    public static GameManager getInstance(){
+    public static GameManager getInstance() {
         //Singleton Pattern without double Locking: ( NOT threadsafe)
-        if (instance == null){
+        if (instance == null) {
             System.out.println(instance);
             instance = new GameManager();
         }
@@ -49,14 +50,17 @@ public class GameManager {
     }
 
 
-    public Pane getView() {
+    public Group getView() {
         return gameView.getView();
     }
-    public ArrayList<Tile> getLevelTiles(){
+
+    public ArrayList<Tile> getLevelTiles() {
         ArrayList<Tile> retVal = new ArrayList<>();
-        for(Tile[] row: currentLevel.getTiles()){
-            for(Tile tile: row){
-                retVal.add(tile);
+        for (Tile[] row : currentLevel.getTiles()) {
+            for (Tile tile : row) {
+                if (tile != null) {
+                    retVal.add(tile);
+                }
             }
         }
         return retVal;
