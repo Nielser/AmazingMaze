@@ -1,7 +1,7 @@
 import javafx.scene.layout.Pane;
 
 public class GameManager {
-    private static GameManager instance =null;
+    private static GameManager instance;
     private LevelGenerator levelGenerator;
     private Level currentLevel;
     private Player player;
