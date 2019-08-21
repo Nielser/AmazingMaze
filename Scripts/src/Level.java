@@ -1,4 +1,4 @@
-import java.awt.*;
+
 import java.util.Random;
 
 public class Level {
@@ -116,10 +116,10 @@ public class Level {
     }
 
 
-    public void render(Graphics g) {
+    public void render() {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (tiles[i][j] != null) tiles[i][j].render(g);
+                if (tiles[i][j] != null) tiles[i][j].render();
             }
         }
     }

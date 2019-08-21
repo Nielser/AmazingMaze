@@ -1,9 +1,15 @@
 public abstract class IntelligentTile extends Tile {
     protected int speed;
+    protected boolean up,down,left,right;
+
 
     public IntelligentTile(int positionX, int positionY, int pixelSize, int speed) {
         super(positionX, positionY, pixelSize);
         this.speed = speed;
+        up=false;
+        down=false;
+        right=false;
+        left=false;
     }
 
    /* public void move(Direction direction){

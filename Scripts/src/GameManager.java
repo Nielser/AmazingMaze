@@ -1,3 +1,4 @@
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -59,5 +60,9 @@ public class GameManager {
             }
         }
         return retVal;
+    }
+
+    public void handleKeyEvent(KeyEvent e, boolean stillMoving){
+        player.handleKeyEvent(e,stillMoving);
     }
 }
