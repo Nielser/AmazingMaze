@@ -1,5 +1,7 @@
 import javafx.scene.layout.Pane;
 
+import java.util.ArrayList;
+
 public class GameManager {
     private static GameManager instance;
     private LevelGenerator levelGenerator;
@@ -11,8 +13,7 @@ public class GameManager {
         //player = new Player();
         levelGenerator = new LevelGenerator();
         currentLevel = levelGenerator.createLevel();
-        gameView = new GameView();
-        System.out.println("GM");
+        gameView = new GameView(getLevelTiles());
     }
 
     public static GameManager getInstance(){
@@ -49,5 +50,14 @@ public class GameManager {
 
     public Pane getView() {
         return gameView.getView();
+    }
+    public ArrayList<Tile> getLevelTiles(){
+        ArrayList<Tile> retVal = new ArrayList<>();
+        for(Tile[] row: currentLevel.getTiles()){
+            for(Tile tile: row){
+                retVal.add(tile);
+            }
+        }
+        return retVal;
     }
 }

@@ -9,7 +9,7 @@ public class Main extends Application {
         GameManager gameManager = GameManager.getInstance();
 
         primaryStage.setTitle("Amazing Maze");
-        primaryStage.setScene(new Scene(gameManager.getView(),500,800));
+        primaryStage.setScene(new Scene(gameManager.getView(),800,800));
         primaryStage.show();
     }
 
