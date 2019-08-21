@@ -12,7 +12,7 @@ public abstract class IntelligentTile extends Tile {
         left=false;
     }
 
-   /* public void move(Direction direction){
+   /*public void move(Direction direction){
         if (canMove(direction)) {
             switch (direction) {
                 case up:
@@ -32,9 +32,9 @@ public abstract class IntelligentTile extends Tile {
                     System.err.println("Undefined movement direction of Object " + this.toString() + " of class " + this.getClass());
             }
         }
-    }*/
+    }
 
-   /* public boolean canMove(Direction direction) {
+   public boolean canMove(Direction direction) {
         GameManager gm = GameManager.getInstance();
         switch (direction) {
             case up:

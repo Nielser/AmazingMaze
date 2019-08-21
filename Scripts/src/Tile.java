@@ -11,7 +11,6 @@ public abstract class Tile extends Rectangle {
     public void render() {
         setFill(color);
         setStroke(color);
-        setStrokeWidth(10);
     }
 
 

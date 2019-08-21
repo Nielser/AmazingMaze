@@ -7,11 +7,11 @@ public class Level {
     private int height;
     private int tilePixelSize;
     private Tile[][] tiles;
-
+    private int[] startPosition;
 
     public Level(String levelString) {
         width = height = (int) Math.sqrt(levelString.length());
-        tilePixelSize = 800;//GameManager.getInstance().getCanvasHeight()/width;
+        tilePixelSize = 800/width;//GameManager.getInstance().getCanvasHeight();  #todo: gamemanager endless recursion fix without inits @chrisi
         createLevel(levelString);
         //transformLevel(); transformLevel();
     }
@@ -28,6 +28,7 @@ public class Level {
                         break;
                     case '2':
                         tiles[i][j] = new StartTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize);
+                        startPosition= new int[]{i*tilePixelSize,j*tilePixelSize};
                         break;
                     case '3':
                         tiles[i][j] = new FinishTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize);
@@ -130,5 +131,13 @@ public class Level {
 
     public Tile[][] getTiles() {
         return tiles;
+    }
+
+    public int[] getStartingPosition(){
+        return startPosition;
+    }
+
+    public int getPixelSize(){
+        return tilePixelSize;
     }
 }

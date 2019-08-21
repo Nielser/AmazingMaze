@@ -12,10 +12,11 @@ public class GameManager {
     private GameView gameView;
 
     public GameManager() {
-        //player = new Player();
         levelGenerator = new LevelGenerator();
         currentLevel = levelGenerator.createLevel();
         gameView = new GameView(getLevelTiles());
+        player = new Player(currentLevel.getStartingPosition(),currentLevel.getPixelSize(),5,3);
+        gameView.updatePlayerLocation(player);
     }
 
     public static GameManager getInstance() {
@@ -36,8 +37,8 @@ public class GameManager {
     }
 
     public int getCanvasHeight() {
-        //#todo: returns pixel height of the game rectangle
-        return 800;//dummyreturn
+        //return gameView.getHeight();
+        return 800;// dummyreturn
     }
 
     public void playerDied() {
@@ -50,7 +51,7 @@ public class GameManager {
     }
 
 
-    public Group getView() {
+    public Pane getView() {
         return gameView.getView();
     }
 
@@ -67,6 +68,7 @@ public class GameManager {
     }
 
     public void handleKeyEvent(KeyEvent e, boolean stillMoving){
-        player.handleKeyEvent(e,stillMoving);
+        System.out.println("HandleKeyEvent:"+e.getCode()+"|"+stillMoving);
+        //player.handleKeyEvent(e,stillMoving);
     }
 }
