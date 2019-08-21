@@ -28,6 +28,10 @@ public class GameView {
         return (int)pane.getHeight();
     }
 
+    public int getWidth(){
+        return(int) pane.getWidth();
+    }
+
     public void updatePlayerLocation(Player player){
         group.getChildren().remove(player);
         group.getChildren().add(player);

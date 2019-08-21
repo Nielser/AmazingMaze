@@ -25,7 +25,6 @@ public class GameManager {
             System.out.println(instance);
             instance = new GameManager();
         }
-        System.out.println("GI");
         return instance;
     }
 
@@ -36,9 +35,13 @@ public class GameManager {
     public void LevelFinished() {
     }
 
-    public int getCanvasHeight() {
+    public int getWindowHeight() {
         //return gameView.getHeight();
         return 800;// dummyreturn
+    }
+
+    public int getWindowWidth(){
+        return gameView.getWidth();
     }
 
     public void playerDied() {
@@ -68,7 +71,6 @@ public class GameManager {
     }
 
     public void handleKeyEvent(KeyEvent e, boolean stillMoving){
-        System.out.println("HandleKeyEvent:"+e.getCode()+"|"+stillMoving);
-        //player.handleKeyEvent(e,stillMoving);
+        player.handleKeyEvent(e,stillMoving);
     }
 }

@@ -21,8 +21,9 @@ public class Level {
         tiles = new Tile[width][height];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-
                 switch (levelString.charAt(i + (j * width))) {
+                    case '0':
+                        break;
                     case '1':
                         tiles[i][j] = new WallTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize);
                         break;
@@ -39,7 +40,7 @@ public class Level {
                         break;
                     default:
                         tiles[i][j] = null;
-                        System.err.println("Level.createLevel(): unknown TileType");
+                        System.err.println("Level.createLevel(): unknown TileType "+levelString.charAt(i + (j * width)));
                 }
              }
         }
@@ -94,8 +95,6 @@ public class Level {
         }
     }
 
-
-    //#todo: duplicate code: mirrorLevelHorizontaly() -> might be reasonable to combine into one function but need more input
     public void mirrorLevelVertically() {
         Tile[][] tilesCopy = tiles.clone();
         for (int i = 0; i < width; i++) {
