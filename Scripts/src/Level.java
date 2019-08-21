@@ -21,9 +21,23 @@ public class Level {
         tiles = new Tile[width][height];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (levelString.charAt(i + (j * width)) == '1')
-                    tiles[i][j] = new WallTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize);
-            }
+
+                switch ( levelString.charAt(i + (j * width))){
+                    case '1':  tiles[i][j] = new WallTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize);
+                        break;
+                    case '2':  tiles[i][j] = new StartTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize);
+                        break;
+                    case '3':  tiles[i][j] = new FinishTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize);
+                        break;
+                    case '4':  System.out.println("Enemy Created"); //Enemy creation;
+                        break;
+
+                        default: System.err.println("Level.createLevel(): What ever!");
+                }
+
+
+
+             }
         }
         transformLevel();
     }
