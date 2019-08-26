@@ -146,4 +146,10 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
     public int getPixelSize() {
         return currentLevel.getPixelSize();
     }
+
+    public double[] getPlayerPosition(){
+        double[] position = new double[2];
+        position[0] = player.getX();
+        position[1] = player.getY();
+    }
 }
