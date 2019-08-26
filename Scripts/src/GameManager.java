@@ -16,9 +16,9 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
 
     public GameManager() {
         Dimension dimension = new Dimension(GameManager.WIDTH, GameManager.HEIGHT);
-        setPreferredSize(dimension);
-        setMinimumSize(dimension);
-        setMaximumSize(dimension);
+          setPreferredSize(dimension);
+          setMinimumSize(dimension);
+          setMaximumSize(dimension);
 
         addKeyListener(this);
 
@@ -26,7 +26,7 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
 
 
         //gameView = new GameView(getLevelTiles());
-        // player = new Player(currentLevel.getStartingPosition(),currentLevel.getPixelSize(),5,3);
+        //player = new Player(currentLevel.getStartingPosition(),currentLevel.getPixelSize(),5,3);
         //gameView.updatePlayerLocation(player);
     }
 
@@ -70,7 +70,7 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
     }
 
     private void tick() {
-        // player.tick();
+//        player.tick();
         //level.tick();
     }//#todo: rip enemy code
 

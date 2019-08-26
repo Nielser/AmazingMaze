@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class Level {
     //public ArrayList<Enemy> enemies;
-    private int width;
+    private int width ;
     private int height;
     private int tilePixelSize;
     private Tile[][] tiles;
@@ -14,7 +14,8 @@ public class Level {
 
     public Level(String levelString) {
         width = height = (int) Math.sqrt(levelString.length());
-        tilePixelSize = GameManager.getInstance().HEIGHT; // #todo: gamemanager endless recursion fix without inits @chrisi
+        tilePixelSize = GameManager.getInstance().HEIGHT/width;// #todo: gamemanager endless recursion fix without inits @chrisi
+        System.out.println(GameManager.getInstance().HEIGHT);
         createLevel(levelString);
 
     }
