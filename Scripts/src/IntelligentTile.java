@@ -21,7 +21,7 @@ public abstract class IntelligentTile extends Tile {
     }
 
     public void move(Direction direction) {
-        System.out.println("Move");
+        System.out.println("Move:\n Position: x="+getX()+" y="+getY());
         switch(direction){
             case up:
                 while(up.get()){
@@ -61,7 +61,7 @@ public abstract class IntelligentTile extends Tile {
                 }break;
             default:System.err.println("Unhandled movement Direction");
         }
-        System.out.println("Move " + direction + " x= " + xProperty().get() + "y= " + yProperty().get());
+        System.out.println(direction + " x= " + getX() + "y= " + getY());
     }
 
     public boolean canMove(Direction direction) {
