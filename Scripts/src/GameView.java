@@ -7,13 +7,10 @@ import java.util.ArrayList;
 
 public class GameView {
     Pane pane;
-    Group group;
     public GameView(ArrayList<Tile> tiles){
         pane = new Pane();
-        group = new Group();
-        pane.getChildren().add(group);
-        group.getChildren().addAll(tiles);
-        for(Node t: group.getChildren()){
+        pane.getChildren().addAll(tiles);
+        for(Node t: pane.getChildren()){
             if(t instanceof Tile){
                 ((Tile) t).render();
             }
@@ -33,8 +30,8 @@ public class GameView {
     }
 
     public void updatePlayerLocation(Player player){
-        group.getChildren().remove(player);
-        group.getChildren().add(player);
+        pane.getChildren().remove(player);
+        pane.getChildren().add(player);
         player.toFront();
     }
 }

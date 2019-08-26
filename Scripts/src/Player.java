@@ -9,7 +9,6 @@ public class Player extends IntelligentTile {
         super(startingPosition[0], startingPosition[1], pixelSize, speed);
         this.health = health > 0 ? health : 1;
         this.color = Color.YELLOW;
-        System.out.println(this.getX()+"/"+this.getY());
     }
 
     public void takeDamage(int amount) {
@@ -25,9 +24,12 @@ public class Player extends IntelligentTile {
     }
 
     public void handleKeyEvent(KeyEvent e, boolean stillMoving) {
+        System.out.println(canMove(Direction.up));
         switch (e.getCode()) {
             case UP:
             case W:
+
+                System.out.println(canMove(Direction.up));
                 if (canMove(Direction.up)&&stillMoving) {
                 up.setValue(true);
                 move(Direction.up);}
@@ -37,6 +39,8 @@ public class Player extends IntelligentTile {
                 break;
             case DOWN:
             case S:
+
+                System.out.println(canMove(Direction.down));
                 if (canMove(Direction.down)&&stillMoving) {
                     down.setValue(true);
                     move(Direction.down);}
@@ -46,6 +50,7 @@ public class Player extends IntelligentTile {
                 break;
             case LEFT:
             case A:
+                System.out.println(canMove(Direction.left));
                 if (canMove(Direction.left)&&stillMoving) {
                     left.setValue(true);
                     move(Direction.left);}
@@ -55,6 +60,7 @@ public class Player extends IntelligentTile {
                 break;
             case RIGHT:
             case D:
+                System.out.println(canMove(Direction.right));
                 if (canMove(Direction.right)&&stillMoving) {
                     right.setValue(true);
                     move(Direction.right);}

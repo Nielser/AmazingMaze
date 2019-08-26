@@ -50,6 +50,7 @@ public class GameManager {
 
     public boolean isTileWall(int x, int y) {
         Tile[][] tiles = currentLevel.getTiles();
+        System.err.println("PlayerPosition: x="+player.getX()/GameManager.getInstance().getPixelSize()+" y="+player.getY()/GameManager.getInstance().getPixelSize());
         System.out.println(x+"/"+y+"="+(x>0&&x<tiles.length&&y>0&&y<tiles.length? tiles[x][y] instanceof WallTile : false));
         return x>0&&x<tiles.length&&y>0&&y<tiles.length? tiles[x][y] instanceof WallTile : false;
     }

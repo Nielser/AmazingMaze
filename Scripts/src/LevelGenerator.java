@@ -46,7 +46,6 @@ public class LevelGenerator {
             String levelString = possibleLevels.get(0);
             currentLevel = new Level(levelString);
         }
-        System.out.println("LG");
         return currentLevel;
     }
 }
