@@ -8,17 +8,42 @@ public class Level {
     private int tilePixelSize;
     private Tile[][] tiles;
     private int[] startPosition;
+    private char[] c;
+    private char[][] c2d;
+    private char[][] c2dCopy;
 
     public Level(String levelString) {
         width = height = (int) Math.sqrt(levelString.length());
         tilePixelSize = 800/width;//GameManager.getInstance().getCanvasHeight();  #todo: gamemanager endless recursion fix without inits @chrisi
         createLevel(levelString);
-        //transformLevel(); transformLevel();
+
     }
 
 
     public void createLevel(String levelString) {
         tiles = new Tile[width][height];
+        c = levelString.toCharArray();
+        c2d = new char[width][height];
+        c2dCopy = new char[width][height];
+        for(int i=0; i<width;i++)
+            for(int j=0;j<height;j++){
+                c2d[i][j] = c[(j*width) + i];
+                c2dCopy[i][j] = c[(j*width) + i];
+            }
+
+
+            transformLevel();
+
+        for(int i=0; i<width;i++)
+            for(int j=0;j<height;j++)
+                c[(j*width) + i]= c2d[i][j];
+
+            levelString = String.valueOf(c);
+
+
+
+
+
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 switch (levelString.charAt(i + (j * width))) {
@@ -45,9 +70,13 @@ public class Level {
                 }
              }
         }
+
     }
 
     public void transformLevel() {
+
+    System.out.println("HEY");
+
         Random rand = new Random(System.currentTimeMillis());
         int transformCount = rand.nextInt(3);
         for (int i = 0; i < transformCount; i++) {
@@ -76,32 +105,35 @@ public class Level {
 
     //Transponiert Levelmatrix
     public void transposeLevel() {
-        Tile[][] levelCopy = tiles.clone();
+
+
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (tiles[i][j] != null)
-                    tiles[j][i] = levelCopy[i][j];
+
+                    c2d[j][i] = c2dCopy[i][j];
             }
         }
     }
 
     //Spiegelt LevelMatrix Horizontal
     public void mirrorLevelHorizontally() {
-        Tile[][] tilesCopy = tiles.clone();
+
+
+
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (tiles[i][j] != null)
-                    tiles[i][j] = tilesCopy[width - 1 - i][j];
+
+                    c2d[i][j] = c2dCopy[width - 1 - i][j];
             }
         }
     }
 
     public void mirrorLevelVertically() {
-        Tile[][] tilesCopy = tiles.clone();
+
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (tiles[i][j] != null)
-                    tiles[i][j] = tilesCopy[i][height - 1 - j];
+
+                    c2d[i][j] = c2dCopy[i][height - 1 - j];
             }
         }
     }
