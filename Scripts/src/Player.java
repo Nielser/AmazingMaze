@@ -1,7 +1,4 @@
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
-
+import java.awt.*;
 public class Player extends IntelligentTile {
     private int health;
 
@@ -20,7 +17,7 @@ public class Player extends IntelligentTile {
 
     public void die() {
         GameManager.getInstance().playerDied();
-        this.setFill(Color.WHITE);
+
     }
 
     public void handleKeyEvent(KeyEvent e, boolean stillMoving) {

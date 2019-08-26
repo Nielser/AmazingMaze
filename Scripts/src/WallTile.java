@@ -1,8 +1,8 @@
-import javafx.scene.paint.Color;
+import java.awt.*;
 
 public class WallTile extends Tile {
     public WallTile(int positionX, int positionY, int pixelSize) {
         super(positionX, positionY, pixelSize );
-        this.color = Color.BLUE; //in fx umwandeln
+        this.color = Color.BLUE;
     }
 }
