@@ -7,11 +7,11 @@ public class Level {
     private int height;
     private int tilePixelSize;
     private Tile[][] tiles;
-
+    private int[] startPosition;
 
     public Level(String levelString) {
         width = height = (int) Math.sqrt(levelString.length());
-        tilePixelSize = 800;//GameManager.getInstance().getCanvasHeight()/width;
+        tilePixelSize = 800/width;//GameManager.getInstance().getCanvasHeight();  #todo: gamemanager endless recursion fix without inits @chrisi
         createLevel(levelString);
         //transformLevel(); transformLevel();
     }
@@ -21,13 +21,16 @@ public class Level {
         tiles = new Tile[width][height];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-
                 switch (levelString.charAt(i + (j * width))) {
+                    case '0':
+                        break;
                     case '1':
                         tiles[i][j] = new WallTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize);
                         break;
                     case '2':
                         tiles[i][j] = new StartTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize);
+                        startPosition= new int[]{i*tilePixelSize,j*tilePixelSize};
+                        System.out.println(startPosition[0]+"/"+startPosition[1]);
                         break;
                     case '3':
                         tiles[i][j] = new FinishTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize);
@@ -38,11 +41,9 @@ public class Level {
                         break;
                     default:
                         tiles[i][j] = null;
-                        System.err.println("Level.createLevel(): unknown TileType");
+                        System.err.println("Level.createLevel(): unknown TileType "+levelString.charAt(i + (j * width)));
                 }
-
-
-            }
+             }
         }
     }
 
@@ -95,8 +96,6 @@ public class Level {
         }
     }
 
-
-    //#todo: duplicate code: mirrorLevelHorizontaly() -> might be reasonable to combine into one function but need more input
     public void mirrorLevelVertically() {
         Tile[][] tilesCopy = tiles.clone();
         for (int i = 0; i < width; i++) {
@@ -130,5 +129,13 @@ public class Level {
 
     public Tile[][] getTiles() {
         return tiles;
+    }
+
+    public int[] getStartingPosition(){
+        return startPosition;
+    }
+
+    public int getPixelSize(){
+        return tilePixelSize;
     }
 }

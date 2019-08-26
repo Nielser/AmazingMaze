@@ -1,53 +1,85 @@
+import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.scene.input.KeyEvent;
+
+import javax.swing.text.NumberFormatter;
+
 public abstract class IntelligentTile extends Tile {
     protected int speed;
-    protected boolean up,down,left,right;
+    protected BooleanProperty up, down, left, right;
 
 
     public IntelligentTile(int positionX, int positionY, int pixelSize, int speed) {
         super(positionX, positionY, pixelSize);
         this.speed = speed;
-        up=false;
-        down=false;
-        right=false;
-        left=false;
+        up = new SimpleBooleanProperty(false);
+        down = new SimpleBooleanProperty(false);
+        left = new SimpleBooleanProperty(false);
+        right = new SimpleBooleanProperty(false);
+
     }
 
-   /* public void move(Direction direction){
-        if (canMove(direction)) {
-            switch (direction) {
-                case up:
-                    yProperty().setValue(yProperty().getValue()-speed);
-                    break;
-                case down:
-                    yProperty().setValue(yProperty().getValue()+speed);
-                    break;
-                case left:
-                    xProperty().setValue(xProperty().getValue()-speed);
-                    break;
-                case right:
-
-                    xProperty().setValue(xProperty().getValue()+speed);
-                    break;
-                default:
-                    System.err.println("Undefined movement direction of Object " + this.toString() + " of class " + this.getClass());
-            }
+    public void move(Direction direction) {
+        System.out.println("Move:\n Position: x="+getX()+" y="+getY());
+        switch(direction){
+            case up:
+                while(up.get()){
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run(){
+                            yProperty().set(yProperty().get() - speed);
+                        }
+                    });
+                }break;
+            case down:
+                while(up.get()){
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run(){
+                            yProperty().set(yProperty().get() + speed);
+                        }
+                    });
+                }break;
+            case left:
+                while(up.get()){
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run(){
+                            xProperty().set(xProperty().get() - speed);
+                        }
+                    });
+                }break;
+            case right:
+                while(up.get()){
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run(){
+                            xProperty().set(xProperty().get() + speed);
+                        }
+                    });
+                }break;
+            default:System.err.println("Unhandled movement Direction");
         }
-    }*/
+        System.out.println(direction + " x= " + getX() + "y= " + getY());
+    }
 
-   /* public boolean canMove(Direction direction) {
+    public boolean canMove(Direction direction) {
         GameManager gm = GameManager.getInstance();
+        int arrayPositionX = xProperty().getValue().intValue() / gm.getPixelSize();
+        int arrayPositionY = yProperty().getValue().intValue() / gm.getPixelSize();
         switch (direction) {
             case up:
-                return gm.isTileWall(xProperty().getValue(), (int)yProperty().getValue() + 1);
+                return gm.isTileWall(arrayPositionX, arrayPositionY - 1);
             case down:
-                return gm.isTileWall(, positionY - 1);
+                return gm.isTileWall(arrayPositionX, arrayPositionY + 1);
             case left:
-                return gm.isTileWall(positionX - 1, positionY);
+                return gm.isTileWall(arrayPositionX - 1, arrayPositionY);
             case right:
-                return gm.isTileWall(positionX + 1, positionY);
+                return gm.isTileWall(arrayPositionX + 1, arrayPositionY);
             default:
                 System.err.println("Undefined movement direction of Object " + this.toString() + " of class " + this.getClass());
         }
         return false;
-    }*/
+    }
 }

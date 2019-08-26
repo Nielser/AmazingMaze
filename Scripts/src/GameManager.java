@@ -12,19 +12,18 @@ public class GameManager {
     private GameView gameView;
 
     public GameManager() {
-        //player = new Player();
         levelGenerator = new LevelGenerator();
         currentLevel = levelGenerator.createLevel();
         gameView = new GameView(getLevelTiles());
+        player = new Player(currentLevel.getStartingPosition(),currentLevel.getPixelSize(),5,3);
+        gameView.updatePlayerLocation(player);
     }
 
     public static GameManager getInstance() {
         //Singleton Pattern without double Locking: ( NOT threadsafe)
         if (instance == null) {
-            System.out.println(instance);
             instance = new GameManager();
         }
-        System.out.println("GI");
         return instance;
     }
 
@@ -35,9 +34,13 @@ public class GameManager {
     public void LevelFinished() {
     }
 
-    public int getCanvasHeight() {
-        //#todo: returns pixel height of the game rectangle
-        return 800;//dummyreturn
+    public int getWindowHeight() {
+        //return gameView.getHeight();
+        return 800;// dummyreturn
+    }
+
+    public int getWindowWidth(){
+        return gameView.getWidth();
     }
 
     public void playerDied() {
@@ -46,11 +49,14 @@ public class GameManager {
     }
 
     public boolean isTileWall(int x, int y) {
-        return currentLevel.getTiles()[x][y] instanceof WallTile;
+        Tile[][] tiles = currentLevel.getTiles();
+        System.err.println("PlayerPosition: x="+player.getX()/GameManager.getInstance().getPixelSize()+" y="+player.getY()/GameManager.getInstance().getPixelSize());
+        System.out.println(x+"/"+y+"="+(x>0&&x<tiles.length&&y>0&&y<tiles.length? tiles[x][y] instanceof WallTile : false));
+        return x>0&&x<tiles.length&&y>0&&y<tiles.length? tiles[x][y] instanceof WallTile : false;
     }
 
 
-    public Group getView() {
+    public Pane getView() {
         return gameView.getView();
     }
 
@@ -68,5 +74,9 @@ public class GameManager {
 
     public void handleKeyEvent(KeyEvent e, boolean stillMoving){
         player.handleKeyEvent(e,stillMoving);
+    }
+
+    public int getPixelSize(){
+        return currentLevel.getPixelSize();
     }
 }
