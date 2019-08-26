@@ -1,4 +1,4 @@
-
+import java.awt.*;
 import java.util.Random;
 
 public class Level {
@@ -14,7 +14,7 @@ public class Level {
 
     public Level(String levelString) {
         width = height = (int) Math.sqrt(levelString.length());
-        tilePixelSize = 800/width;//GameManager.getInstance().getCanvasHeight();  #todo: gamemanager endless recursion fix without inits @chrisi
+        tilePixelSize = GameManager.getInstance().HEIGHT; // #todo: gamemanager endless recursion fix without inits @chrisi
         createLevel(levelString);
 
     }
@@ -151,10 +151,10 @@ public class Level {
     }
 
 
-    public void render() {
+    public void render(Graphics g) {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (tiles[i][j] != null) tiles[i][j].render();
+                if (tiles[i][j] != null) tiles[i][j].render(g);
             }
         }
     }
