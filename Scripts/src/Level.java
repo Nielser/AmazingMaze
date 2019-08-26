@@ -2,7 +2,7 @@ import java.awt.*;
 import java.util.Random;
 
 public class Level {
-    public ArrayList<Enemy> enemies;
+   public ArrayList<Enemy> enemies;
     private int width ;
     private int height;
     private int tilePixelSize;
@@ -13,6 +13,7 @@ public class Level {
     private char[][] c2dCopy;
 
     public Level(String levelString) {
+        //Calculates pixelHeight with windowHeight and length of the level
         width = height = (int) Math.sqrt(levelString.length());
         tilePixelSize = GameManager.getInstance().HEIGHT/width;// #todo: gamemanager endless recursion fix without inits @chrisi
         createLevel(levelString);
@@ -20,6 +21,7 @@ public class Level {
 
 
     public void createLevel(String levelString) {
+        //Create a 2D Array to transform
         tiles = new Tile[width][height];
         c = levelString.toCharArray();
         c2d = new char[width][height];
@@ -30,19 +32,18 @@ public class Level {
                 c2dCopy[i][j] = c[(j*width) + i];
             }
 
+        //Actual transformation
+        transformLevel();
 
-            transformLevel();
-
-        for(int i=0; i<width;i++)
-            for(int j=0;j<height;j++)
+        //Reverting back to levelString
+        for(int i=0; i<width;i++){
+            for(int j=0;j<height;j++){
                 c[(j*width) + i]= c2d[i][j];
+            }
+        }
+        levelString = String.valueOf(c);
 
-            levelString = String.valueOf(c);
-
-
-
-
-
+        //Actual creation of the level
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 switch (levelString.charAt(i + (j * width))) {
@@ -72,6 +73,7 @@ public class Level {
 
     }
 
+    //Random transformation for a maximum of 3
     public void transformLevel() {
         Random rand = new Random(System.currentTimeMillis());
         int transformCount = rand.nextInt(3);
@@ -101,8 +103,6 @@ public class Level {
 
     //Transponiert Levelmatrix
     public void transposeLevel() {
-
-
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                     c2d[j][i] = c2dCopy[i][j];
@@ -112,9 +112,6 @@ public class Level {
 
     //Spiegelt LevelMatrix Horizontal
     public void mirrorLevelHorizontally() {
-
-
-
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                     c2d[i][j] = c2dCopy[width - 1 - i][j];
@@ -123,7 +120,6 @@ public class Level {
     }
 
     public void mirrorLevelVertically() {
-
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                     c2d[i][j] = c2dCopy[i][height - 1 - j];
@@ -143,7 +139,7 @@ public class Level {
         mirrorLevelHorizontally();
     }
 
-
+    //Paints Tiles and Enemies
     public void render(Graphics g) {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
@@ -167,7 +163,7 @@ public class Level {
         return tilePixelSize;
     }
 
-
+    //Updates Enemies
     public void tick() {
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).tick();}

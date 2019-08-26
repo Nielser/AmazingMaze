@@ -35,6 +35,7 @@ public class LevelGenerator {
         }
     }
 
+    //
     public Level createLevel() {
         Level currentLevel = null;
         if (possibleLevels.isEmpty()) {
@@ -43,7 +44,7 @@ public class LevelGenerator {
             Random rand = new Random(System.currentTimeMillis());
             int val = rand.nextInt() % possibleLevels.size();
             System.out.println("Anzahl möglicher Level: "+possibleLevels.size());
-            String levelString = possibleLevels.get(0);
+            String levelString = possibleLevels.get(val);
             currentLevel = new Level(levelString);
         }
         return currentLevel;
