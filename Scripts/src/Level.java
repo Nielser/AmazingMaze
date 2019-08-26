@@ -74,9 +74,6 @@ public class Level {
     }
 
     public void transformLevel() {
-
-    System.out.println("HEY");
-
         Random rand = new Random(System.currentTimeMillis());
         int transformCount = rand.nextInt(3);
         for (int i = 0; i < transformCount; i++) {

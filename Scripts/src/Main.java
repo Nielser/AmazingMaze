@@ -17,11 +17,5 @@ public class Main {
 
         gm.start();
     }
-
-
-
-    public void handleKeyEvent(KeyEvent e, boolean stillMoving){
-        GameManager.getInstance().handleKeyEvent(e,stillMoving);
-    }
 }
 
