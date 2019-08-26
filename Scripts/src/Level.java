@@ -61,7 +61,7 @@ public class Level {
                         tiles[i][j] = new FinishTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize);
                         break;
                     case '4':
-                        tiles[i][j]=null;
+                        tiles[i][j]=new Enemy(i * tilePixelSize, j * tilePixelSize, tilePixelSize,2);
                         System.out.println("Enemy Created"); //Enemy creation;
                         break;
                     default:

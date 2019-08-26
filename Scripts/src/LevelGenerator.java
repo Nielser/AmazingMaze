@@ -9,7 +9,7 @@ public class LevelGenerator {
     public LevelGenerator() {
         this.possibleLevels = getPossibleLevels();
     }
-
+    //Reads level.txt and write it in the list
     private ArrayList<String> parseLevelFile() throws IOException {   //read strings from Resources/levels.txt with \n as delimiter (newline)
         ArrayList<String> parsedLevels = new ArrayList<>();
         try (FileInputStream fs = new FileInputStream(new File(LEVEL_PATH));
@@ -22,6 +22,7 @@ public class LevelGenerator {
         return parsedLevels;
     }
 
+    //Reads level.txt and write it in the list
     private ArrayList<String> getPossibleLevels() {
         ArrayList<String> parsedLevels = new ArrayList<>();
         try {
@@ -35,7 +36,7 @@ public class LevelGenerator {
         }
     }
 
-    //
+    //Choosing random Level from the list of possible levels
     public Level createLevel() {
         Level currentLevel = null;
         if (possibleLevels.isEmpty()) {
