@@ -151,5 +151,6 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
         double[] position = new double[2];
         position[0] = player.getX();
         position[1] = player.getY();
+        return position;
     }
 }
