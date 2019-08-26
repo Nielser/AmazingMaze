@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.event.KeyEvent;
+
 public class Player extends IntelligentTile {
     private int health;
 
@@ -19,6 +21,19 @@ public class Player extends IntelligentTile {
         GameManager.getInstance().playerDied();
     }
 
+    public void handleKeyEvent(KeyEvent e, boolean pressed){
+        switch(e.getKeyCode()){
+            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_D:right = pressed;break;
+            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_A:left = pressed;break;
+            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_S:down = pressed;break;
+            case KeyEvent.VK_UP:
+            case KeyEvent.VK_W:up = pressed;break;
 
+
+        }
+    }
 }
 

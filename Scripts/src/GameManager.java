@@ -2,7 +2,6 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
-import java.util.ArrayList;
 
 public class GameManager extends Canvas implements Runnable, KeyListener {
 
@@ -12,22 +11,16 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
     private LevelGenerator levelGenerator;
     private Level currentLevel;
     private Player player;
-    //private GameView gameView;
 
     public GameManager() {
         Dimension dimension = new Dimension(GameManager.WIDTH, GameManager.HEIGHT);
-          setPreferredSize(dimension);
-          setMinimumSize(dimension);
-          setMaximumSize(dimension);
+        setPreferredSize(dimension);
+        setMinimumSize(dimension);
+        setMaximumSize(dimension);
 
         addKeyListener(this);
 
         levelGenerator = new LevelGenerator();
-
-
-        //gameView = new GameView(getLevelTiles());
-        //player = new Player(currentLevel.getStartingPosition(),currentLevel.getPixelSize(),5,3);
-        //gameView.updatePlayerLocation(player);
     }
 
     public static GameManager getInstance() {
@@ -40,6 +33,7 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
 
     public synchronized void start() {
         currentLevel = levelGenerator.createLevel();
+        player = new Player(currentLevel.getStartingPosition(),getPixelSize(),5,3);
         thread = new Thread(this);
         thread.start();
     }
@@ -70,8 +64,8 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
     }
 
     private void tick() {
-//        player.tick();
-        //level.tick();
+       player.tick();
+       currentLevel.tick();
     }//#todo: rip enemy code
 
 
@@ -116,8 +110,8 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
     }
 
     public void playerDied() {
-        //showDeathUI();
-        //openMenu();
+        stop();
+        start();
     }
 
     public boolean isTileWall(int x, int y) {
@@ -138,26 +132,13 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) player.right = true;
-        if (e.getKeyCode() == KeyEvent.VK_D) player.right = true;
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) player.left = true;
-        if (e.getKeyCode() == KeyEvent.VK_A) player.left = true;
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) player.down = true;
-        if (e.getKeyCode() == KeyEvent.VK_S) player.down = true;
-        if (e.getKeyCode() == KeyEvent.VK_UP) player.up = true;
-        if (e.getKeyCode() == KeyEvent.VK_W) player.up = true;
+        player.handleKeyEvent(e,true);
+
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) player.right = false;
-        if (e.getKeyCode() == KeyEvent.VK_D) player.right = false;
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) player.left = false;
-        if (e.getKeyCode() == KeyEvent.VK_A) player.left = false;
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) player.down = false;
-        if (e.getKeyCode() == KeyEvent.VK_S) player.down = false;
-        if (e.getKeyCode() == KeyEvent.VK_UP) player.up = false;
-        if (e.getKeyCode() == KeyEvent.VK_W) player.up = false;
+        player.handleKeyEvent(e,false);
     }
 
     public int getPixelSize() {
