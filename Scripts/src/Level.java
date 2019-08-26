@@ -2,7 +2,7 @@ import java.awt.*;
 import java.util.Random;
 
 public class Level {
-    //public ArrayList<Enemy> enemies;
+    public ArrayList<Enemy> enemies;
     private int width ;
     private int height;
     private int tilePixelSize;
@@ -15,9 +15,7 @@ public class Level {
     public Level(String levelString) {
         width = height = (int) Math.sqrt(levelString.length());
         tilePixelSize = GameManager.getInstance().HEIGHT/width;// #todo: gamemanager endless recursion fix without inits @chrisi
-        System.out.println(GameManager.getInstance().HEIGHT);
         createLevel(levelString);
-
     }
 
 
@@ -56,7 +54,7 @@ public class Level {
                     case '2':
                         tiles[i][j] = new StartTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize);
                         startPosition= new int[]{i*tilePixelSize,j*tilePixelSize};
-                        System.out.println(startPosition[0]+"/"+startPosition[1]);
+                        System.out.println("Playerposition: "+ startPosition[0]+"/"+startPosition[1]);
                         break;
                     case '3':
                         tiles[i][j] = new FinishTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize);
@@ -107,7 +105,6 @@ public class Level {
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-
                     c2d[j][i] = c2dCopy[i][j];
             }
         }
@@ -120,7 +117,6 @@ public class Level {
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-
                     c2d[i][j] = c2dCopy[width - 1 - i][j];
             }
         }
@@ -130,7 +126,6 @@ public class Level {
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-
                     c2d[i][j] = c2dCopy[i][height - 1 - j];
             }
         }
@@ -154,7 +149,10 @@ public class Level {
             for (int j = 0; j < height; j++) {
                 if (tiles[i][j] != null) tiles[i][j].render(g);
             }
+        }for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).render(g);
         }
+
     }
 
     public Tile[][] getTiles() {
@@ -168,4 +166,12 @@ public class Level {
     public int getPixelSize(){
         return tilePixelSize;
     }
+
+
+    public void tick() {
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).tick();}
+    }
+
 }
+

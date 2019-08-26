@@ -65,7 +65,7 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
 
     private void tick() {
        player.tick();
-       currentLevel.tick();
+      // currentLevel.tick();
     }//#todo: rip enemy code
 
 
@@ -107,11 +107,13 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
     }*/
 
     public void LevelFinished() {
+        stop();
+        start();
     }
 
     public void playerDied() {
         stop();
-        start();
+
     }
 
     public boolean isTileWall(int x, int y) {
