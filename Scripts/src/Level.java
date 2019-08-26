@@ -30,6 +30,7 @@ public class Level {
                     case '2':
                         tiles[i][j] = new StartTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize);
                         startPosition= new int[]{i*tilePixelSize,j*tilePixelSize};
+                        System.out.println(startPosition[0]+"/"+startPosition[1]);
                         break;
                     case '3':
                         tiles[i][j] = new FinishTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize);

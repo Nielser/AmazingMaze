@@ -1,3 +1,4 @@
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.input.KeyEvent;
@@ -21,48 +22,57 @@ public abstract class IntelligentTile extends Tile {
 
     public void move(Direction direction) {
         System.out.println("Move");
-        new Runnable() {
-            @Override
-            public void run() {
-                double currentPosX = xProperty().get();
-                double currentPosY = yProperty().get();
-                switch(direction){
-                    case up:
-                        while(up.get()){
-                            System.out.println(up.get());
-                            yProperty().set(currentPosY-speed);
+        switch(direction){
+            case up:
+                while(up.get()){
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run(){
+                            yProperty().set(yProperty().get() - speed);
                         }
-                        break;
-                    case down:
-                        while(down.get()){
-                            yProperty().set(currentPosY+speed);
+                    });
+                }break;
+            case down:
+                while(up.get()){
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run(){
+                            yProperty().set(yProperty().get() + speed);
                         }
-                        break;
-                    case left:
-                        while(left.get()){
-                            xProperty().set(currentPosX-speed);
+                    });
+                }break;
+            case left:
+                while(up.get()){
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run(){
+                            xProperty().set(xProperty().get() - speed);
                         }
-
-                    case right:
-                        while(right.get()){
-                            xProperty().set(currentPosX+speed);
+                    });
+                }break;
+            case right:
+                while(up.get()){
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run(){
+                            xProperty().set(xProperty().get() + speed);
                         }
-                        break;
-                    default: System.err.println("Unknown movement direction");
-                }
-            }
-        }.run();
-        System.out.println("Move "+direction+" x= "+xProperty().get() + "y= "+yProperty().get());
+                    });
+                }break;
+            default:System.err.println("Unhandled movement Direction");
+        }
+        System.out.println("Move " + direction + " x= " + xProperty().get() + "y= " + yProperty().get());
     }
+
     public boolean canMove(Direction direction) {
         GameManager gm = GameManager.getInstance();
-        int arrayPositionX = xProperty().getValue().intValue()/gm.getWindowWidth();
-        int arrayPositionY = yProperty().getValue().intValue()/gm.getWindowHeight();
+        int arrayPositionX = xProperty().getValue().intValue() / gm.getPixelSize();
+        int arrayPositionY = yProperty().getValue().intValue() / gm.getPixelSize();
         switch (direction) {
             case up:
-                return gm.isTileWall(arrayPositionX, arrayPositionY + 1);
-            case down:
                 return gm.isTileWall(arrayPositionX, arrayPositionY - 1);
+            case down:
+                return gm.isTileWall(arrayPositionX, arrayPositionY + 1);
             case left:
                 return gm.isTileWall(arrayPositionX - 1, arrayPositionY);
             case right:

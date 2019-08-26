@@ -35,5 +35,6 @@ public class GameView {
     public void updatePlayerLocation(Player player){
         group.getChildren().remove(player);
         group.getChildren().add(player);
+        player.toFront();
     }
 }

@@ -22,7 +22,6 @@ public class GameManager {
     public static GameManager getInstance() {
         //Singleton Pattern without double Locking: ( NOT threadsafe)
         if (instance == null) {
-            System.out.println(instance);
             instance = new GameManager();
         }
         return instance;
@@ -50,7 +49,9 @@ public class GameManager {
     }
 
     public boolean isTileWall(int x, int y) {
-        return currentLevel.getTiles()[x][y] instanceof WallTile;
+        Tile[][] tiles = currentLevel.getTiles();
+        System.out.println(x+"/"+y+"="+(x>0&&x<tiles.length&&y>0&&y<tiles.length? tiles[x][y] instanceof WallTile : false));
+        return x>0&&x<tiles.length&&y>0&&y<tiles.length? tiles[x][y] instanceof WallTile : false;
     }
 
 
@@ -72,5 +73,9 @@ public class GameManager {
 
     public void handleKeyEvent(KeyEvent e, boolean stillMoving){
         player.handleKeyEvent(e,stillMoving);
+    }
+
+    public int getPixelSize(){
+        return currentLevel.getPixelSize();
     }
 }

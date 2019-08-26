@@ -9,6 +9,7 @@ public class Player extends IntelligentTile {
         super(startingPosition[0], startingPosition[1], pixelSize, speed);
         this.health = health > 0 ? health : 1;
         this.color = Color.YELLOW;
+        System.out.println(this.getX()+"/"+this.getY());
     }
 
     public void takeDamage(int amount) {
