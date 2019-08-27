@@ -17,12 +17,13 @@ public class Level {
         //Calculates pixelHeight with windowHeight and length of the level
         width = height = (int) Math.sqrt(levelString.length());
         tilePixelSize = GameManager.getInstance().HEIGHT/width;// #todo: gamemanager endless recursion fix without inits @chrisi
+        enemies = new ArrayList<>();
         createLevel(levelString);
     }
 
 
     public void createLevel(String levelString) {
-        //Create a 2D Array to transform
+        //Create a 2D Array to transform, because cloning a 2D Tile[][] wasnt working.
         tiles = new Tile[width][height];
         c = levelString.toCharArray();
         c2d = new char[width][height];
@@ -62,7 +63,9 @@ public class Level {
                         tiles[i][j] = new FinishTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize);
                         break;
                     case '4':
-                        tiles[i][j]=new Enemy(i * tilePixelSize, j * tilePixelSize, tilePixelSize,2);
+                        Enemy enemy =new Enemy(i * tilePixelSize, j * tilePixelSize, tilePixelSize,2);
+                        enemies.add(enemy);
+                        tiles[i][j]=enemy;
                         System.out.println("Enemy Created"); //Enemy creation;
                         break;
                     default:

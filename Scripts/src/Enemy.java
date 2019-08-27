@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.Random;
 
 public class Enemy extends IntelligentTile {
@@ -5,6 +6,7 @@ public class Enemy extends IntelligentTile {
     public Enemy(int positionX, int positionY, int pixelSize, int speed) {
         super(positionX, positionY, pixelSize, speed);
         rand = new Random();
+        this.color = Color.RED;
     }
     @Override
     public void tick(){
