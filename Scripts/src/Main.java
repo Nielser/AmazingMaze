@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 
 public class Main {
     public static void main(String[] args) {
-        GameManager gm = new GameManager();
+        GameManager gm = GameManager.getInstance();
         JFrame frame = new JFrame();
         frame.setTitle("Amazing Maze");
         frame.add(gm);
@@ -14,7 +14,7 @@ public class Main {
         frame.setLocationRelativeTo(null);
 
         frame.setVisible(true);
-
+        System.out.println("MAIN:"+gm);
         gm.start();
     }
 }

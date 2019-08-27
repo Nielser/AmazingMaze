@@ -17,6 +17,7 @@ public class Enemy extends IntelligentTile {
     public void tick() {
         //aggro();
         chooseDirection();
+        //setDirectionValue(Direction.up,true);
         super.tick();
     }
 
@@ -24,13 +25,13 @@ public class Enemy extends IntelligentTile {
     public void chooseDirection() {//#todo: should not change direction until hitting a wall;
         ArrayList<Direction> possibleDirections = getPossibleDirections();
 
-        Direction nextDirection = possibleDirections.get(rand.nextInt() % possibleDirections.size());
+        Direction nextDirection = possibleDirections.get(Math.abs(rand.nextInt()) % possibleDirections.size());
 
         if (currentDirection == null) {
             currentDirection = nextDirection;
         }
 
-        if (!canMove(currentDirection) || rand.nextInt() % 100 >= 66) {
+        if (!canMove(currentDirection) || Math.abs(rand.nextInt()) % 100 >= 66) {
             setDirectionValue(currentDirection, false);
             currentDirection = nextDirection;
             setDirectionValue(nextDirection,true);

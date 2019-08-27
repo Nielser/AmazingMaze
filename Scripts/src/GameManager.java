@@ -5,9 +5,9 @@ import java.awt.image.BufferStrategy;
 
 public class GameManager extends Canvas implements Runnable, KeyListener {
 
-    public static final int WIDTH =800, HEIGHT=800;
+    public static final int WIDTH = 800, HEIGHT = 800;
     private Thread thread;
-    private static GameManager instance;
+    private static volatile GameManager instance;
     private LevelGenerator levelGenerator;
     private Level currentLevel;
     private Player player;
@@ -26,18 +26,20 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
     }
 
 
-    public static GameManager getInstance() {
-        //Singleton Pattern without double Locking: ( NOT threadsafe)
+    public static synchronized GameManager getInstance() {
         if (instance == null) {
+            System.out.println(System.currentTimeMillis()+" Making new GameManager: old: "+instance);
             instance = new GameManager();
+            System.out.println(System.currentTimeMillis()+" Making new GameManager: new:"+instance);
         }
         return instance;
     }
 
     //Starts a new Game
     public synchronized void start() {
+        System.out.println("GM START: "+this);
         currentLevel = levelGenerator.createLevel();
-        player = new Player(currentLevel.getStartingPosition(),getPixelSize(),5,3);
+        player = new Player(currentLevel.getStartingPosition(), getPixelSize(), 5, 3);
         thread = new Thread(this);
         thread.start();
     }
@@ -71,8 +73,8 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
     }
 
     private void tick() {
-       player.tick();
-      // currentLevel.tick();
+        player.tick();
+        currentLevel.tick();
     }//#todo: rip enemy code
 
 
@@ -145,13 +147,13 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        player.handleKeyEvent(e,true);
+        player.handleKeyEvent(e, true);
 
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        player.handleKeyEvent(e,false);
+        player.handleKeyEvent(e, false);
     }
 
     //Getter
@@ -159,9 +161,8 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
         return currentLevel.getPixelSize();
     }
 
-
     //Getter
-    public double[] getPlayerPosition(){
+    public double[] getPlayerPosition() {
         double[] position = new double[2];
         position[0] = player.getX();
         position[1] = player.getY();
