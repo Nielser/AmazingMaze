@@ -12,6 +12,8 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
     private Level currentLevel;
     private Player player;
 
+
+    //Sets window size
     public GameManager() {
         Dimension dimension = new Dimension(GameManager.WIDTH, GameManager.HEIGHT);
         setPreferredSize(dimension);
@@ -23,6 +25,7 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
         levelGenerator = new LevelGenerator();
     }
 
+
     public static GameManager getInstance() {
         //Singleton Pattern without double Locking: ( NOT threadsafe)
         if (instance == null) {
@@ -31,6 +34,7 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
         return instance;
     }
 
+    //Starts a new Game
     public synchronized void start() {
         currentLevel = levelGenerator.createLevel();
         player = new Player(currentLevel.getStartingPosition(),getPixelSize(),5,3);
@@ -38,6 +42,7 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
         thread.start();
     }
 
+    //Stops the Thread so you cant move, I guess
     public synchronized void stop() {
         try {
             thread.join();
@@ -47,13 +52,15 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
 
     }
 
-
+    //Copy Pasted from Stackoverflow todo Understand this stuff, kinda
     private void render() {
         BufferStrategy bs = getBufferStrategy();
         if (bs == null) {
             createBufferStrategy(3);
             return;
         }
+
+        //Drawing background
         Graphics g = bs.getDrawGraphics();
         g.setColor(Color.black);
         g.fillRect(0, 0, GameManager.WIDTH, GameManager.HEIGHT);
@@ -69,6 +76,7 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
     }//#todo: rip enemy code
 
 
+    //Setting a stable fps
     @Override
     public void run() {//#todo: chrisi try to understand this fuckery.
         requestFocus();
@@ -102,20 +110,23 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
     }
 
 
-    /*public void playerTakeDamage(int amount) {
+    public void playerTakeDamage(int amount) {
         player.takeDamage(amount);
-    }*/
+    }
 
+    //Stops game and starts a new one todo print a message: Level Complete!!!
     public void LevelFinished() {
         stop();
         start();
     }
 
+    //Stops game  todo print a message: You died!!!
     public void playerDied() {
         stop();
 
     }
 
+    //Checks if the next Tile is a Walltile
     public boolean isTileWall(int x, int y) {
         Tile[][] tiles = currentLevel.getTiles();
         if (x > 0 && x < tiles.length && y > 0 && y < tiles.length) {
@@ -143,10 +154,13 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
         player.handleKeyEvent(e,false);
     }
 
+    //Getter
     public int getPixelSize() {
         return currentLevel.getPixelSize();
     }
 
+
+    //Getter
     public double[] getPlayerPosition(){
         double[] position = new double[2];
         position[0] = player.getX();

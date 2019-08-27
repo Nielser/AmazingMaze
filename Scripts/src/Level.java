@@ -120,6 +120,7 @@ public class Level {
         }
     }
 
+    //Spiegelt LevelMatrix Vertikal
     public void mirrorLevelVertically() {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
@@ -152,6 +153,7 @@ public class Level {
 
     }
 
+    //Some Getter
     public Tile[][] getTiles() {
         return tiles;
     }

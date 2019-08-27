@@ -14,8 +14,9 @@ public abstract class IntelligentTile extends Tile {
         super(positionX, positionY, pixelSize);
         this.speed = speed;
         up=down=left=right=false;
-
     }
+
+    //Actual moving
     public void tick(){
         if(right&& canMove(Direction.right) )x+=speed;
         if(left && canMove(Direction.left))x-=speed;
@@ -24,6 +25,7 @@ public abstract class IntelligentTile extends Tile {
     }
 
 
+    //Gives next x or y to isTileWall to check if the next Tile is a wall
     public boolean canMove(Direction direction) {
         GameManager gm = GameManager.getInstance();
         int arrayPositionX = x / gm.getPixelSize();

@@ -12,6 +12,8 @@ public class Enemy extends IntelligentTile {
         chooseDirection();
         super.tick();
     }
+
+    //Random movement till enemy hit a wall
     public void chooseDirection(){//#todo: should not change direction until hitting a wall;
         Direction nextDirection = Direction.values()[rand.nextInt()%4];
         boolean canMove = canMove(nextDirection);
@@ -23,6 +25,7 @@ public class Enemy extends IntelligentTile {
         }
     }
 
+    //Speed increase within a 200 pix radius
     private void aggro(){
         if(Math.abs(GameManager.getInstance().getPlayerPosition()[0]-this.x)>200)speed=1;
         else {
