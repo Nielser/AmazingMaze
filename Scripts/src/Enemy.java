@@ -16,13 +16,13 @@ public class Enemy extends IntelligentTile {
     @Override
     public void tick() {
         //aggro();
-        chooseDirection();
-        //setDirectionValue(Direction.up,true);
+        //chooseDirection();
+        setDirectionValue(Direction.left,true);
         super.tick();
     }
 
     //Random movement till enemy hit a wall
-    public void chooseDirection() {//#todo: should not change direction until hitting a wall;
+    public void chooseDirection() {
         ArrayList<Direction> possibleDirections = getPossibleDirections();
 
         Direction nextDirection = possibleDirections.get(Math.abs(rand.nextInt()) % possibleDirections.size());

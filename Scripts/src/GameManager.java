@@ -129,11 +129,13 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
     }
 
     //Checks if the next Tile is a Walltile
-    public boolean isTileWall(int x, int y) {
+    public boolean isTileWall(Rectangle position) {
         Tile[][] tiles = currentLevel.getTiles();
-        if (x > 0 && x < tiles.length && y > 0 && y < tiles.length) {
-            if (tiles[x][y] instanceof WallTile) {
-                return true;
+        for(Tile[] row:tiles){
+            for(Tile tile: row){
+                if(tile instanceof WallTile&&tile.intersects(position)){
+                    return true;
+                }
             }
         }
         return false;
