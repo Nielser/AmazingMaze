@@ -29,21 +29,20 @@ public abstract class IntelligentTile extends Tile {
 
     //Gives next x or y to isTileWall to check if the next Tile is a wall
     public boolean canMove(Direction direction) {
+        int pixelSize = GameManager.getInstance().getPixelSize();
         Rectangle nextPosition;
-        GameManager gm = GameManager.getInstance();
-        int pixelSize = gm.getPixelSize();
         switch (direction) {
             case up:
-                nextPosition = new Rectangle(x, y - speed, pixelSize, pixelSize);break;
+                nextPosition = new Rectangle(x, y - speed, height, width);break;
             case down:
-                nextPosition = new Rectangle(x, y + speed, pixelSize, pixelSize);break;
+                nextPosition = new Rectangle(x, y + speed, height, width);break;
             case left:
-                nextPosition = new Rectangle(x-speed, y, pixelSize, pixelSize);break;
+                nextPosition = new Rectangle(x-speed, y,height, width);break;
             case right:
-                nextPosition = new Rectangle(x+speed, y, pixelSize, pixelSize);break;
+                nextPosition = new Rectangle(x+speed, y, height, width);break;
             default: nextPosition=null;
         }
-        return gm.isTileWall(nextPosition);/*
+        return !GameManager.getInstance().isTileWall(nextPosition);/*
         int arrayPositionX = x / gm.getPixelSize();
         int arrayPositionY = y / gm.getPixelSize();
         switch (direction) {

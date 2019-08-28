@@ -9,6 +9,7 @@ public class Level {
     private int tilePixelSize;
     private Tile[][] tiles;
     private int[] startPosition;
+    private FinishTile finishTile;
     private char[] c;
     private char[][] c2d;
     private char[][] c2dCopy;
@@ -50,6 +51,7 @@ public class Level {
             for (int j = 0; j < height; j++) {
                 switch (levelString.charAt(i + (j * width))) {
                     case '0':
+                        tiles[i][j] = null;
                         break;
                     case '1':
                         tiles[i][j] = new WallTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize);
@@ -60,13 +62,14 @@ public class Level {
                         System.out.println("Playerposition: "+ startPosition[0]+"/"+startPosition[1]);
                         break;
                     case '3':
-                        tiles[i][j] = new FinishTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize);
+                        finishTile = new FinishTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize);
+                        tiles[i][j] = finishTile;
                         break;
                     case '4':
-                        Enemy enemy =new Enemy(i * tilePixelSize, j * tilePixelSize , tilePixelSize,2);
+                        Enemy enemy =new Enemy(i * tilePixelSize, j * tilePixelSize , tilePixelSize-1,1);
                         enemies.add(enemy);
                         tiles[i][j]=enemy;
-                        System.out.println("Enemy Created"); //Enemy creation;
+                        //System.out.println("Enemy Created"); //Enemy creation;
                         break;
                     default:
                         tiles[i][j] = null;
@@ -169,11 +172,19 @@ public class Level {
         return tilePixelSize;
     }
 
+    public FinishTile getFinishTile(){
+        return finishTile;
+    }
+
+    public ArrayList<Enemy> getEnemies(){
+        return enemies;
+    }
     //Updates Enemies
     public void tick() {
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).tick();}
     }
+
 
 }
 
