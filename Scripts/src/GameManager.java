@@ -131,8 +131,10 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
     public void checkDamage() {
         for (Enemy enemy : currentLevel.getEnemies()) {
             if (player.intersects(enemy)) {
-                enemy.knockBackOnPlayerHit();
                 player.takeDamage(1);
+                enemy.setDamage(0);
+                enemy.speed= -enemy.speed;
+                //enemy.knockBackOnPlayerHit();
             }
         }
     }

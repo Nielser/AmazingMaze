@@ -4,20 +4,32 @@ import java.util.Random;
 
 
 public class Enemy extends IntelligentTile {
-    Random rand;
-    Direction currentDirection;
+    private Random rand;
+    private Direction currentDirection;
+    private int damage;
 
-    public Enemy(int positionX, int positionY, int pixelSize, int speed) {
+    public Enemy(int positionX, int positionY, int pixelSize, int speed, int damage) {
         super(positionX, positionY, pixelSize, speed);
         rand = new Random();
         this.color = Color.RED;
+        this.damage = damage;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int value) {
+        this.damage = value;
     }
 
     @Override
     public void tick() {
-        //if (playerInRange()) {
-            followPlayer();
-        //} else {
+        if (playerInRange()) {
+        followPlayer();
+        } else {
+            damage=1;
+        }
         //    chooseDirection();
         //    super.tick();
         //}
@@ -63,22 +75,26 @@ public class Enemy extends IntelligentTile {
     public void followPlayer() {
         if (this.y % 2 == 1) y += 1;
         if (this.x % 2 == 1) x += 1;
-        speed = 2;
+        if (damage != 0) {
+            speed = 2;
+        }
         double[] playerPosition = GameManager.getInstance().getPlayerPosition();
         if (((playerPosition[0] - this.x) > 0) && canMove(Direction.right)) x += speed;
         if (((playerPosition[0] - this.x) < 0) && canMove(Direction.left)) x -= speed;
         if (((playerPosition[1] - this.y) > 0) && canMove(Direction.down)) y += speed;
         if (((playerPosition[1] - this.y) < 0) && canMove(Direction.up)) y -= speed;
-        speed = 1;
+        if (damage != 0) {
+            speed = 1;
+        }
     }
 
-    public void knockBackOnPlayerHit(){
+    public void knockBackOnPlayerHit() {
         double[] playerPosition = GameManager.getInstance().getPlayerPosition();
-        int knockBackSize = GameManager.getInstance().getPixelSize()*2;
-        if (((playerPosition[0] - this.x) > 0) && canMove(Direction.right)) x -=knockBackSize;
+        int knockBackSize = GameManager.getInstance().getPixelSize() * 2;
+        if (((playerPosition[0] - this.x) > 0) && canMove(Direction.right)) x -= knockBackSize;
         if (((playerPosition[0] - this.x) < 0) && canMove(Direction.left)) x += knockBackSize;
-        if (((playerPosition[1] - this.y) > 0) && canMove(Direction.down)) y -=knockBackSize;
-        if (((playerPosition[1] - this.y) < 0) && canMove(Direction.up)) y +=knockBackSize;
+        if (((playerPosition[1] - this.y) > 0) && canMove(Direction.down)) y -= knockBackSize;
+        if (((playerPosition[1] - this.y) < 0) && canMove(Direction.up)) y += knockBackSize;
     }
 
     public boolean playerInRange() {
