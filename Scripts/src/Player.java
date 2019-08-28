@@ -15,14 +15,9 @@ public class Player extends IntelligentTile {
     public void takeDamage(int amount) {
         health -= amount;
         if (health <= 0) {
-            die();
+            GameManager.getInstance().playerDied();
         }
     }
-    public void die() {
-        GameManager.getInstance().playerDied();
-    }
-
-
     //KeyEvents
     public void handleKeyEvent(KeyEvent e, boolean pressed){
         switch(e.getKeyCode()){
