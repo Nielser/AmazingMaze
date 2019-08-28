@@ -131,14 +131,10 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
     public void checkDamage() {
         for (Enemy enemy : currentLevel.getEnemies()) {
             if (player.intersects(enemy)) {
+                enemy.knockBackOnPlayerHit();
                 player.takeDamage(1);
             }
         }
-    }
-
-
-    public void playerTakeDamage(int amount) {
-        player.takeDamage(amount);
     }
 
     //Stops game and starts a new one todo print a message: Level Complete!!!

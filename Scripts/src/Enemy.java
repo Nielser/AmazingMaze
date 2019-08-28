@@ -15,31 +15,27 @@ public class Enemy extends IntelligentTile {
 
     @Override
     public void tick() {
-        if(playerInRange()){
-        followPlayer();}
-        else{
-            chooseDirection();
-            super.tick();
-        }
-        //super.tick();
+        //if (playerInRange()) {
+            followPlayer();
+        //} else {
+        //    chooseDirection();
+        //    super.tick();
+        //}
     }
 
     //Random movement till enemy hit a wall
     public void chooseDirection() {
-        System.out.println(currentDirection);
-        if(currentDirection==null||!canMove(currentDirection)){
-            if(currentDirection!=null){
-                setDirectionValue(currentDirection,false);
-            }
-            ArrayList<Direction> possibleDirections = getPossibleDirections();
-            System.out.println(Math.abs(rand.nextInt())%possibleDirections.size());
-            currentDirection=possibleDirections.get(Math.abs(rand.nextInt())%possibleDirections.size());
-            setDirectionValue(currentDirection,true);
+        if (currentDirection != null && !canMove(currentDirection)) {
+            setDirectionValue(currentDirection, false);
         }
+
+        ArrayList<Direction> possibleDirections = getPossibleDirections();
+        currentDirection = possibleDirections.get(Math.abs(rand.nextInt()) % possibleDirections.size());
+        setDirectionValue(currentDirection, true);
         super.tick();
     }
 
-    private ArrayList<Direction> getPossibleDirections(){
+    private ArrayList<Direction> getPossibleDirections() {
         ArrayList<Direction> possibleDirections = new ArrayList<>();
         for (Direction d : Direction.values()) {
             if (canMove(d)) {
@@ -63,36 +59,30 @@ public class Enemy extends IntelligentTile {
         }
     }
 
-    //Speed increase within a 200 pix radius
-    private void aggro() {
-        if (Math.abs(GameManager.getInstance().getPlayerPosition()[0] - this.x) > 200) speed = 1;
-        else {
-            followPlayer();
-            //wenn speed 1 war kann es sein, das Gegner auf einem ungeradenen pixel anfangen, dann bleiben dies stehen
-            //
-        }
-        if (Math.abs(GameManager.getInstance().getPlayerPosition()[1] - this.y) > 200) speed = 1;
-        else {
-            speed = 2;
-            followPlayer();
 
-        }
-    }
-
-    public void followPlayer(){
+    public void followPlayer() {
         if (this.y % 2 == 1) y += 1;
         if (this.x % 2 == 1) x += 1;
-        speed=2;
+        speed = 2;
         double[] playerPosition = GameManager.getInstance().getPlayerPosition();
-        if (((playerPosition[0]-this.x)>0) && canMove(Direction.right)) x += speed;
-        if (((playerPosition[0]-this.x)<0)  && canMove(Direction.left)) x -= speed;
-        if (((playerPosition[1]-this.y)>0)   && canMove(Direction.down)) y += speed;
-        if (((playerPosition[1]-this.y)<0)  && canMove(Direction.up)) y -= speed;
-        speed=1;
+        if (((playerPosition[0] - this.x) > 0) && canMove(Direction.right)) x += speed;
+        if (((playerPosition[0] - this.x) < 0) && canMove(Direction.left)) x -= speed;
+        if (((playerPosition[1] - this.y) > 0) && canMove(Direction.down)) y += speed;
+        if (((playerPosition[1] - this.y) < 0) && canMove(Direction.up)) y -= speed;
+        speed = 1;
     }
 
-    public boolean playerInRange(){
-        int aggroDistance = GameManager.getInstance().getPixelSize()*5;
+    public void knockBackOnPlayerHit(){
+        double[] playerPosition = GameManager.getInstance().getPlayerPosition();
+        int knockBackSize = GameManager.getInstance().getPixelSize()*2;
+        if (((playerPosition[0] - this.x) > 0) && canMove(Direction.right)) x -=knockBackSize;
+        if (((playerPosition[0] - this.x) < 0) && canMove(Direction.left)) x += knockBackSize;
+        if (((playerPosition[1] - this.y) > 0) && canMove(Direction.down)) y -=knockBackSize;
+        if (((playerPosition[1] - this.y) < 0) && canMove(Direction.up)) y +=knockBackSize;
+    }
+
+    public boolean playerInRange() {
+        int aggroDistance = GameManager.getInstance().getPixelSize() * 5;
         return Math.abs(GameManager.getInstance().getPlayerPosition()[0] - this.x) < aggroDistance && Math.abs(GameManager.getInstance().getPlayerPosition()[1] - this.y) < aggroDistance;
     }
 }
