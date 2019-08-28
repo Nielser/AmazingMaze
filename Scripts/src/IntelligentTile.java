@@ -7,7 +7,6 @@ import javax.swing.text.NumberFormatter;
 import java.awt.*;
 
 public abstract class IntelligentTile extends Tile {
-    protected int walkedDistance;
     protected int speed;
     protected boolean up, down, left, right;
 
@@ -29,7 +28,6 @@ public abstract class IntelligentTile extends Tile {
 
     //Gives next x or y to isTileWall to check if the next Tile is a wall
     public boolean canMove(Direction direction) {
-        int pixelSize = GameManager.getInstance().getPixelSize();
         Rectangle nextPosition;
         switch (direction) {
             case up:
@@ -42,21 +40,6 @@ public abstract class IntelligentTile extends Tile {
                 nextPosition = new Rectangle(x+speed, y, height, width);break;
             default: nextPosition=null;
         }
-        return !GameManager.getInstance().isTileWall(nextPosition);/*
-        int arrayPositionX = x / gm.getPixelSize();
-        int arrayPositionY = y / gm.getPixelSize();
-        switch (direction) {
-            case up:
-                return gm.isTileWall(arrayPositionX, arrayPositionY - 1);
-            case down:
-                return gm.isTileWall(arrayPositionX, arrayPositionY + 1);
-            case left:
-                return gm.isTileWall(arrayPositionX - 1, arrayPositionY);
-            case right:
-                return gm.isTileWall(arrayPositionX + 1, arrayPositionY);
-            default:
-                System.err.println("Undefined movement direction of Object " + this.toString() + " of class " + this.getClass());
-        }
-        return false;*/
+        return !GameManager.getInstance().isTileWall(nextPosition);
     }
 }

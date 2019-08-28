@@ -17,7 +17,7 @@ public class Level {
     public Level(String levelString) {
         //Calculates pixelHeight with windowHeight and length of the level
         width = height = (int) Math.sqrt(levelString.length());
-        tilePixelSize = GameManager.getInstance().HEIGHT/width;// #todo: gamemanager endless recursion fix without inits @chrisi
+        tilePixelSize = GameManager.getInstance().HEIGHT/width;
         enemies = new ArrayList<>();
         createLevel(levelString);
     }
