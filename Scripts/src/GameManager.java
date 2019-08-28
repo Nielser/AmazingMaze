@@ -1,3 +1,5 @@
+import jdk.jshell.spi.ExecutionControl;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -28,18 +30,15 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
 
     public static synchronized GameManager getInstance() {
         if (instance == null) {
-            System.out.println(System.currentTimeMillis()+" Making new GameManager: old: "+instance);
             instance = new GameManager();
-            System.out.println(System.currentTimeMillis()+" Making new GameManager: new:"+instance);
         }
         return instance;
     }
 
     //Starts a new Game
     public synchronized void start() {
-        System.out.println("GM START: "+this);
         currentLevel = levelGenerator.createLevel();
-        player = new Player(currentLevel.getStartingPosition(), getPixelSize(), 5, 3);
+        player = new Player(currentLevel.getStartingPosition(), getPixelSize()-1, 2, 3);
         thread = new Thread(this);
         thread.start();
     }
@@ -66,15 +65,17 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
         Graphics g = bs.getDrawGraphics();
         g.setColor(Color.black);
         g.fillRect(0, 0, GameManager.WIDTH, GameManager.HEIGHT);
-        //player.render(g);
         currentLevel.render(g);
+        player.render(g);
         g.dispose();
         bs.show();
     }
 
     private void tick() {
         player.tick();
+        checkFinished();
         currentLevel.tick();
+        checkDamage();
     }//#todo: rip enemy code
 
 
@@ -110,6 +111,22 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
 
         stop();
     }
+    public void restart(){
+        //#todo: idk yet
+    }
+    public void checkFinished(){
+        if(currentLevel.getFinishTile().contains(player)){
+            levelFinished();
+        }
+    }
+
+    public void checkDamage(){
+        for(Enemy enemy:currentLevel.getEnemies()){
+            if(player.intersects(enemy)){
+                player.takeDamage(1);
+            }
+        }
+    }
 
 
     public void playerTakeDamage(int amount) {
@@ -117,7 +134,7 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
     }
 
     //Stops game and starts a new one todo print a message: Level Complete!!!
-    public void LevelFinished() {
+    public void levelFinished() {
         stop();
         start();
     }
@@ -129,16 +146,23 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
     }
 
     //Checks if the next Tile is a Walltile
-    public boolean isTileWall(int x, int y) {
+    public boolean isTileWall(Rectangle position) {
         Tile[][] tiles = currentLevel.getTiles();
-        if (x > 0 && x < tiles.length && y > 0 && y < tiles.length) {
-            if (tiles[x][y] instanceof WallTile) {
-                return true;
+        for(Tile[] row:tiles){
+            for(Tile tile: row){
+                if(tile instanceof WallTile&&position.intersects(tile)){
+                    return true;
+                }
+
             }
         }
-        return false;
+
+        return isOutOfBounds(position.x,position.y);
     }
 
+    private boolean isOutOfBounds(int x, int y){
+        return x<0||y<0||x>getWidth()||y>getHeight();
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
