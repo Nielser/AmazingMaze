@@ -32,5 +32,9 @@ public class Player extends IntelligentTile {
             //default:break;
         }
     }
+
+    public int getCurrentHealth(){
+        return health;
+    }
 }
 

@@ -15,27 +15,28 @@ public class Enemy extends IntelligentTile {
 
     @Override
     public void tick() {
-        //aggro();
-        // chooseDirection();
-        //setDirectionValue(Direction.left,true);
-        movementOld();
+        if(playerInRange()){
+        followPlayer();}
+        else{
+            chooseDirection();
+            super.tick();
+        }
         //super.tick();
     }
 
     //Random movement till enemy hit a wall
     public void chooseDirection() {
-        ArrayList<Direction> possibleDirections = getPossibleDirections();
-        Direction nextDirection = possibleDirections.get(Math.abs(rand.nextInt()) % possibleDirections.size());
-
-        if (currentDirection == null) {
-            currentDirection = nextDirection;
+        System.out.println(currentDirection);
+        if(currentDirection==null||!canMove(currentDirection)){
+            if(currentDirection!=null){
+                setDirectionValue(currentDirection,false);
+            }
+            ArrayList<Direction> possibleDirections = getPossibleDirections();
+            System.out.println(Math.abs(rand.nextInt())%possibleDirections.size());
+            currentDirection=possibleDirections.get(Math.abs(rand.nextInt())%possibleDirections.size());
+            setDirectionValue(currentDirection,true);
         }
-
-        if (!canMove(currentDirection) || Math.abs(rand.nextInt()) % 100 >= 66) {
-            setDirectionValue(currentDirection, false);
-            currentDirection = nextDirection;
-            setDirectionValue(nextDirection,true);
-        }
+        super.tick();
     }
 
     private ArrayList<Direction> getPossibleDirections(){
@@ -45,6 +46,7 @@ public class Enemy extends IntelligentTile {
                 possibleDirections.add(d);
             }
         }
+        possibleDirections.remove(currentDirection);
         return possibleDirections;
     }
 
@@ -65,22 +67,32 @@ public class Enemy extends IntelligentTile {
     private void aggro() {
         if (Math.abs(GameManager.getInstance().getPlayerPosition()[0] - this.x) > 200) speed = 1;
         else {
-            speed = 2;
+            followPlayer();
             //wenn speed 1 war kann es sein, das Gegner auf einem ungeradenen pixel anfangen, dann bleiben dies stehen
-            if (this.x % 2 == 1) x += 1;
+            //
         }
         if (Math.abs(GameManager.getInstance().getPlayerPosition()[1] - this.y) > 200) speed = 1;
         else {
             speed = 2;
-            if (this.y % 2 == 1) y += 1;
+            followPlayer();
+
         }
     }
 
-    public void movementOld(){
+    public void followPlayer(){
+        if (this.y % 2 == 1) y += 1;
+        if (this.x % 2 == 1) x += 1;
+        speed=2;
         double[] playerPosition = GameManager.getInstance().getPlayerPosition();
         if (((playerPosition[0]-this.x)>0) && canMove(Direction.right)) x += speed;
         if (((playerPosition[0]-this.x)<0)  && canMove(Direction.left)) x -= speed;
         if (((playerPosition[1]-this.y)>0)   && canMove(Direction.down)) y += speed;
         if (((playerPosition[1]-this.y)<0)  && canMove(Direction.up)) y -= speed;
+        speed=1;
+    }
+
+    public boolean playerInRange(){
+        int aggroDistance = GameManager.getInstance().getPixelSize()*5;
+        return Math.abs(GameManager.getInstance().getPlayerPosition()[0] - this.x) < aggroDistance && Math.abs(GameManager.getInstance().getPlayerPosition()[1] - this.y) < aggroDistance;
     }
 }
