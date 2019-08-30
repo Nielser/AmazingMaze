@@ -6,13 +6,13 @@ import java.util.Random;
 public class Enemy extends IntelligentTile {
     private Random rand;
     private Direction currentDirection;
-    private int damage;
 
     public Enemy(int positionX, int positionY, int pixelSize, int speed, int damage) {
         super(positionX, positionY, pixelSize, speed);
         rand = new Random();
         this.color = Color.RED;
-        this.damage = damage;
+        currentDirection = Direction.up;
+        walkInDirection(currentDirection,true);
     }
 
     public int getDamage() {
@@ -26,25 +26,51 @@ public class Enemy extends IntelligentTile {
     @Override
     public void tick() {
         if (playerInRange()) {
-        followPlayer();
+            walkInDirection(currentDirection, false);
+            followPlayer();
         } else {
-            damage=1;
+            chooseDirection();
         }
-        //    chooseDirection();
-        //    super.tick();
-        //}
     }
 
     //Random movement till enemy hit a wall
     public void chooseDirection() {
-        if (currentDirection != null && !canMove(currentDirection)) {
-            setDirectionValue(currentDirection, false);
+        if (currentDirection == null) {
+            currentDirection = getNextDirection();
+            walkInDirection(currentDirection, true);
         }
+        if (!canMove(currentDirection)||getPossibleDirections().size()>1) {
+            walkInDirection(currentDirection, false);
+            Direction newDirection = getNextDirection();
+            walkInDirection(newDirection, true);
+            currentDirection = newDirection;
+        } super.tick();
+    }
 
+    private Direction getNextDirection() {
         ArrayList<Direction> possibleDirections = getPossibleDirections();
-        currentDirection = possibleDirections.get(Math.abs(rand.nextInt()) % possibleDirections.size());
-        setDirectionValue(currentDirection, true);
-        super.tick();
+        if (currentDirection != null) {
+            Direction oppositeDirection;
+            switch (currentDirection) {
+                case up:
+                    oppositeDirection = Direction.down;break;
+                case down:
+                    oppositeDirection = Direction.up;break;
+                case right:
+                    oppositeDirection = Direction.left;break;
+                case left:
+                    oppositeDirection = Direction.right;break;
+                default:
+                    oppositeDirection = null;
+            }
+            System.out.println(possibleDirections.size());
+            if(possibleDirections.size()>1){
+            possibleDirections.remove(oppositeDirection);
+            }
+        }
+        System.out.println(possibleDirections.size());
+        return possibleDirections.get(Math.abs(rand.nextInt()) % possibleDirections.size());
+
     }
 
     private ArrayList<Direction> getPossibleDirections() {
@@ -54,29 +80,36 @@ public class Enemy extends IntelligentTile {
                 possibleDirections.add(d);
             }
         }
-        possibleDirections.remove(currentDirection);
         return possibleDirections;
     }
 
-    private void setDirectionValue(Direction direction, boolean value) {
+    private void walkInDirection(Direction direction, boolean value) {
+        System.out.println(this+":     "+direction+": "+value);
         switch (direction) {
             case up:
-                up = value;
+                up = value;break;
             case down:
-                down = value;
+                down = value;break;
             case left:
-                left = value;
+                left = value;break;
             case right:
-                right = value;
+                right = value;break;
         }
     }
 
+    //Speed increase within a 200 pix radius
+    private void aggro() {
+        if (Math.abs(GameManager.getInstance().getPlayerPosition()[0] - this.x) > 200) speed = 1;
+        else {
+            followPlayer();
+            //wenn speed 1 war kann es sein, das Gegner auf einem ungeradenen pixel anfangen, dann bleiben dies stehen
+            //
+        }
+        if (Math.abs(GameManager.getInstance().getPlayerPosition()[1] - this.y) > 200) speed = 1;
+        else {
+            //speed = 2;
+            followPlayer();
 
-    public void followPlayer() {
-        if (this.y % 2 == 1) y += 1;
-        if (this.x % 2 == 1) x += 1;
-        if (damage != 0) {
-            speed = 2;
         }
         double[] playerPosition = GameManager.getInstance().getPlayerPosition();
         if (((playerPosition[0] - this.x) > 0) && canMove(Direction.right)) x += speed;
@@ -88,13 +121,16 @@ public class Enemy extends IntelligentTile {
         }
     }
 
-    public void knockBackOnPlayerHit() {
+    public void followPlayer() {
+        //if (this.y % 2 == 1) y += 1;
+        //if (this.x % 2 == 1) x += 1;
+        //speed=2;
         double[] playerPosition = GameManager.getInstance().getPlayerPosition();
-        int knockBackSize = GameManager.getInstance().getPixelSize() * 2;
-        if (((playerPosition[0] - this.x) > 0) && canMove(Direction.right)) x -= knockBackSize;
-        if (((playerPosition[0] - this.x) < 0) && canMove(Direction.left)) x += knockBackSize;
-        if (((playerPosition[1] - this.y) > 0) && canMove(Direction.down)) y -= knockBackSize;
-        if (((playerPosition[1] - this.y) < 0) && canMove(Direction.up)) y += knockBackSize;
+        if (((playerPosition[0] - this.x) > 0) && canMove(Direction.right)) x += speed;
+        if (((playerPosition[0] - this.x) < 0) && canMove(Direction.left)) x -= speed;
+        if (((playerPosition[1] - this.y) > 0) && canMove(Direction.down)) y += speed;
+        if (((playerPosition[1] - this.y) < 0) && canMove(Direction.up)) y -= speed;
+        speed = 1;
     }
 
     public boolean playerInRange() {
