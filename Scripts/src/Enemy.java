@@ -6,28 +6,25 @@ import java.util.Random;
 public class Enemy extends IntelligentTile {
     private Random rand;
     private Direction currentDirection;
+    public boolean hitRecently=false;
 
-    public Enemy(int positionX, int positionY, int pixelSize, int speed, int damage) {
+    public Enemy(int positionX, int positionY, int pixelSize, int speed) {
         super(positionX, positionY, pixelSize, speed);
         rand = new Random();
         this.color = Color.RED;
         currentDirection = Direction.up;
         walkInDirection(currentDirection,true);
+
     }
 
-    public int getDamage() {
-        return damage;
-    }
-
-    public void setDamage(int value) {
-        this.damage = value;
-    }
 
     @Override
     public void tick() {
         if (playerInRange()) {
             walkInDirection(currentDirection, false);
-            followPlayer();
+            if(!hitRecently)
+            followPlayer(1);
+            else followPlayer(-2);
         } else {
             chooseDirection();
         }
@@ -35,6 +32,7 @@ public class Enemy extends IntelligentTile {
 
     //Random movement till enemy hit a wall
     public void chooseDirection() {
+        hitRecently=false;
         if (currentDirection == null) {
             currentDirection = getNextDirection();
             walkInDirection(currentDirection, true);
@@ -63,12 +61,13 @@ public class Enemy extends IntelligentTile {
                 default:
                     oppositeDirection = null;
             }
-            System.out.println(possibleDirections.size());
+
             if(possibleDirections.size()>1){
             possibleDirections.remove(oppositeDirection);
             }
+            
         }
-        System.out.println(possibleDirections.size());
+
         return possibleDirections.get(Math.abs(rand.nextInt()) % possibleDirections.size());
 
     }
@@ -84,7 +83,7 @@ public class Enemy extends IntelligentTile {
     }
 
     private void walkInDirection(Direction direction, boolean value) {
-        System.out.println(this+":     "+direction+": "+value);
+
         switch (direction) {
             case up:
                 up = value;break;
@@ -97,40 +96,17 @@ public class Enemy extends IntelligentTile {
         }
     }
 
-    //Speed increase within a 200 pix radius
-    private void aggro() {
-        if (Math.abs(GameManager.getInstance().getPlayerPosition()[0] - this.x) > 200) speed = 1;
-        else {
-            followPlayer();
-            //wenn speed 1 war kann es sein, das Gegner auf einem ungeradenen pixel anfangen, dann bleiben dies stehen
-            //
-        }
-        if (Math.abs(GameManager.getInstance().getPlayerPosition()[1] - this.y) > 200) speed = 1;
-        else {
-            //speed = 2;
-            followPlayer();
 
-        }
+    public void followPlayer(int knockBackFlag) {
+        if (this.y % 2 == 1) y += 1;
+        if (this.x % 2 == 1) x += 1;
+        speed=2*knockBackFlag;
         double[] playerPosition = GameManager.getInstance().getPlayerPosition();
         if (((playerPosition[0] - this.x) > 0) && canMove(Direction.right)) x += speed;
         if (((playerPosition[0] - this.x) < 0) && canMove(Direction.left)) x -= speed;
         if (((playerPosition[1] - this.y) > 0) && canMove(Direction.down)) y += speed;
         if (((playerPosition[1] - this.y) < 0) && canMove(Direction.up)) y -= speed;
-        if (damage != 0) {
-            speed = 1;
-        }
-    }
-
-    public void followPlayer() {
-        //if (this.y % 2 == 1) y += 1;
-        //if (this.x % 2 == 1) x += 1;
-        //speed=2;
-        double[] playerPosition = GameManager.getInstance().getPlayerPosition();
-        if (((playerPosition[0] - this.x) > 0) && canMove(Direction.right)) x += speed;
-        if (((playerPosition[0] - this.x) < 0) && canMove(Direction.left)) x -= speed;
-        if (((playerPosition[1] - this.y) > 0) && canMove(Direction.down)) y += speed;
-        if (((playerPosition[1] - this.y) < 0) && canMove(Direction.up)) y -= speed;
-        speed = 1;
+        speed=1;
     }
 
     public boolean playerInRange() {
