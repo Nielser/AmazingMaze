@@ -42,8 +42,8 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
         currentLevel = levelGenerator.createLevel();
 
         //if player exists make new player, else make new player and set health to old value (cant use old one because of its size possibly being larger then the pixelSize)
-        player = (player == null)?new Player(currentLevel.getStartingPosition(), getPixelSize() - 1, 2, 3)
-                                :new Player(currentLevel.getStartingPosition(),getPixelSize()-1,2,player.getCurrentHealth());
+        player = (player == null)?new Player(currentLevel.getStartingPosition(), getPixelSize(), 2, 3)
+                                :new Player(currentLevel.getStartingPosition(),getPixelSize(),2,player.getCurrentHealth());
 
         thread = new Thread(this);
         thread.start();
@@ -134,11 +134,6 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
                 player.takeDamage(1);
             }
         }
-    }
-
-
-    public void playerTakeDamage(int amount) {
-        player.takeDamage(amount);
     }
 
     //Stops game and starts a new one todo print a message: Level Complete!!!
