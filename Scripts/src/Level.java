@@ -3,8 +3,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Level {
-   public ArrayList<Enemy> enemies;
-    private int width ;
+    public ArrayList<Enemy> enemies;
+    private int width;
     private int height;
     private int tilePixelSize;
     private Tile[][] tiles;
@@ -17,7 +17,7 @@ public class Level {
     public Level(String levelString) {
         //Calculates pixelHeight with windowHeight and length of the level
         width = height = (int) Math.sqrt(levelString.length());
-        tilePixelSize = GameManager.getInstance().HEIGHT/width;
+        tilePixelSize = GameManager.getInstance().HEIGHT / width;
         enemies = new ArrayList<>();
         createLevel(levelString);
     }
@@ -29,19 +29,19 @@ public class Level {
         c = levelString.toCharArray();
         c2d = new char[width][height];
         c2dCopy = new char[width][height];
-        for(int i=0; i<width;i++)
-            for(int j=0;j<height;j++){
-                c2d[i][j] = c[(j*width) + i];
-                c2dCopy[i][j] = c[(j*width) + i];
+        for (int i = 0; i < width; i++)
+            for (int j = 0; j < height; j++) {
+                c2d[i][j] = c[(j * width) + i];
+                c2dCopy[i][j] = c[(j * width) + i];
             }
 
         //Actual transformation
         transformLevel();
 
         //Reverting back to levelString
-        for(int i=0; i<width;i++){
-            for(int j=0;j<height;j++){
-                c[(j*width) + i]= c2d[i][j];
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                c[(j * width) + i] = c2d[i][j];
             }
         }
         levelString = String.valueOf(c);
@@ -58,24 +58,27 @@ public class Level {
                         break;
                     case '2':
                         tiles[i][j] = new StartTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize);
-                        startPosition= new int[]{i*tilePixelSize,j*tilePixelSize};
-                        System.out.println("Playerposition: "+ startPosition[0]+"/"+startPosition[1]);
+                        startPosition = new int[]{i * tilePixelSize, j * tilePixelSize};
+                        System.out.println("Playerposition: " + startPosition[0] + "/" + startPosition[1]);
                         break;
                     case '3':
                         finishTile = new FinishTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize);
                         tiles[i][j] = finishTile;
                         break;
                     case '4':
-                        Enemy enemy =new Enemy(i * tilePixelSize, j * tilePixelSize , tilePixelSize,1);
+                        Enemy enemy = new Enemy(i * tilePixelSize, j * tilePixelSize, tilePixelSize, 1);
                         enemies.add(enemy);
-                        tiles[i][j]=enemy;
+                        tiles[i][j] = enemy;
                         //System.out.println("Enemy Created"); //Enemy creation;
+                        break;
+                    case '5':
+                        tiles[i][j] = new SpeedTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize, 2);
                         break;
                     default:
                         tiles[i][j] = null;
-                        System.err.println("Level.createLevel(): unknown TileType "+levelString.charAt(i + (j * width)));
+                        System.err.println("Level.createLevel(): unknown TileType " + levelString.charAt(i + (j * width)));
                 }
-             }
+            }
         }
 
     }
@@ -112,7 +115,7 @@ public class Level {
     public void transposeLevel() {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                    c2d[j][i] = c2dCopy[i][j];
+                c2d[j][i] = c2dCopy[i][j];
             }
         }
     }
@@ -121,7 +124,7 @@ public class Level {
     public void mirrorLevelHorizontally() {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                    c2d[i][j] = c2dCopy[width - 1 - i][j];
+                c2d[i][j] = c2dCopy[width - 1 - i][j];
             }
         }
     }
@@ -130,7 +133,7 @@ public class Level {
     public void mirrorLevelVertically() {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                    c2d[i][j] = c2dCopy[i][height - 1 - j];
+                c2d[i][j] = c2dCopy[i][height - 1 - j];
             }
         }
     }
@@ -153,7 +156,8 @@ public class Level {
             for (int j = 0; j < height; j++) {
                 if (tiles[i][j] != null) tiles[i][j].render(g);
             }
-        }for (int i = 0; i < enemies.size(); i++) {
+        }
+        for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).render(g);
         }
 
@@ -164,25 +168,27 @@ public class Level {
         return tiles;
     }
 
-    public int[] getStartingPosition(){
+    public int[] getStartingPosition() {
         return startPosition;
     }
 
-    public int getPixelSize(){
+    public int getPixelSize() {
         return tilePixelSize;
     }
 
-    public FinishTile getFinishTile(){
+    public FinishTile getFinishTile() {
         return finishTile;
     }
 
-    public ArrayList<Enemy> getEnemies(){
+    public ArrayList<Enemy> getEnemies() {
         return enemies;
     }
+
     //Updates Enemies
     public void tick() {
         for (int i = 0; i < enemies.size(); i++) {
-            enemies.get(i).tick();}
+            enemies.get(i).tick();
+        }
     }
 
 

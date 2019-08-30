@@ -38,7 +38,6 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
     //Starts a new Game
     public synchronized void start() {
         threadCnt++;
-        System.out.println("ThreadCount:"+ threadCnt);
         currentLevel = levelGenerator.createLevel();
 
         //if player exists make new player, else make new player and set health to old value (cant use old one because of its size possibly being larger then the pixelSize)
@@ -84,6 +83,7 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
     private void tick() {
         player.tick();
         checkFinished();
+        checkUpgrade();
         currentLevel.tick();
         checkDamage();
     }
@@ -118,7 +118,7 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
                 timer += 1000;
             }
         }
-       //stop(thread);
+       stop(thread);
     }
 
     //checks if player is standing on the finish tile
@@ -139,9 +139,12 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
 
     //Stops game and starts a new one todo print a message: Level Complete!!!
     public void levelFinished() {
+        System.out.println("ThreadCount:"+ threadCnt);
         Thread old = thread;
         start();
         stop(old);
+        threadCnt--;
+        System.out.println(threadCnt);
     }
 
     //Stops game  todo print a message: You died!!!
@@ -165,8 +168,19 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
         return isOutOfBounds(position.x, position.y);
     }
 
+    public void checkUpgrade(){
+        Tile[][] tiles = currentLevel.getTiles();
+        for (Tile[] row : tiles) {
+            for (Tile tile : row) {
+                if (tile instanceof UpgradeTile && player.intersects(tile)) {
+                    ((SpeedTile)tile).upgrade(player);
+                }
+            }
+        }
+    }
+
     private boolean isOutOfBounds(int x, int y) {
-        return x < 0 || y < 0 || x > getWidth() || y > getHeight();
+        return x < 0 || y < 0 || x > getWidth()-getPixelSize() || y > getHeight()-getPixelSize();
     }
 
     @Override

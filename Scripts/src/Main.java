@@ -15,5 +15,8 @@ public class Main {
         frame.setVisible(true);
         gm.start();
     }
+    public static void restart(){
+        GameManager.getInstance().start();
+    }
 }
 
