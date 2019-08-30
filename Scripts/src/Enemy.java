@@ -25,6 +25,7 @@ public class Enemy extends IntelligentTile {
         }
     }
 
+
     //Random movement till enemy hit a wall
     public void chooseDirection() {
         if (currentDirection == null) {
@@ -55,12 +56,10 @@ public class Enemy extends IntelligentTile {
                 default:
                     oppositeDirection = null;
             }
-            System.out.println(possibleDirections.size());
             if(possibleDirections.size()>1){
             possibleDirections.remove(oppositeDirection);
             }
         }
-        System.out.println(possibleDirections.size());
         return possibleDirections.get(Math.abs(rand.nextInt()) % possibleDirections.size());
 
     }
@@ -76,7 +75,6 @@ public class Enemy extends IntelligentTile {
     }
 
     private void walkInDirection(Direction direction, boolean value) {
-        System.out.println(this+":     "+direction+": "+value);
         switch (direction) {
             case up:
                 up = value;break;
