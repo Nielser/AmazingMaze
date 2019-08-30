@@ -12,7 +12,8 @@ public class ShieldTile extends UpgradeTile {
 
     @Override
     public void upgrade(Player player) {
-        player.setShield(true);
+        if(shieldValue!=0){
+        player.setShield(true);}
         shieldValue = 0;
         this.color = Color.black;
     }

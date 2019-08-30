@@ -1,13 +1,23 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class LevelGenerator {
     final static String LEVEL_PATH = "Resources/levels.txt";
+    final static String NUMBER_PATH = "Resources/numbers.txt";
+    final static String HEALTH_PATH = "Resources/health.txt";
     private ArrayList<String> possibleLevels;
+    private HashMap<Integer,String> numbers;
+    private String health;
 
     public LevelGenerator() {
         this.possibleLevels = getPossibleLevels();
+        try{
+        parseNumbersAndHealth();}
+        catch(IOException e){
+            e.printStackTrace();
+        }
     }
     //Reads level.txt and write it in the list
     private ArrayList<String> parseLevelFile() throws IOException {   //read strings from Resources/levels.txt with \n as delimiter (newline)
@@ -21,6 +31,28 @@ public class LevelGenerator {
         }
         return parsedLevels;
     }
+
+    private void parseNumbersAndHealth() throws IOException{
+        numbers = new HashMap();
+        int cnt=0;
+        try (FileInputStream fs = new FileInputStream(new File(NUMBER_PATH));
+             InputStreamReader ir = new InputStreamReader(fs);
+             BufferedReader reader = new BufferedReader(ir)) {
+            while (reader.ready()) {
+               numbers.put(cnt++,reader.readLine());
+            }
+        }
+        health="";
+        try (FileInputStream fs = new FileInputStream(new File(HEALTH_PATH));
+             InputStreamReader ir = new InputStreamReader(fs);
+             BufferedReader reader = new BufferedReader(ir)) {
+            while (reader.ready()) {
+                health+=reader.readLine();
+            }
+        }
+
+    }
+
 
     //Reads level.txt and write it in the list
     private ArrayList<String> getPossibleLevels() {
