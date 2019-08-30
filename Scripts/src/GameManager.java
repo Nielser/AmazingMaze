@@ -7,7 +7,7 @@ import java.awt.image.BufferStrategy;
 
 public class GameManager extends Canvas implements Runnable, KeyListener {
     private static int threadCnt = 0;
-    public static final int WIDTH = 800, HEIGHT = 800;
+    public static final int WIDTH = 1100, HEIGHT = 800;
     private Thread thread;
     private static volatile GameManager instance;
     private LevelGenerator levelGenerator;
