@@ -31,7 +31,7 @@ public class Enemy extends IntelligentTile {
             currentDirection = getNextDirection();
             walkInDirection(currentDirection, true);
         }
-        if (!canMove(currentDirection)) {
+        if (!canMove(currentDirection)||getPossibleDirections().size()>1) {
             walkInDirection(currentDirection, false);
             Direction newDirection = getNextDirection();
             walkInDirection(newDirection, true);
