@@ -1,75 +1,69 @@
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
+import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class Player extends IntelligentTile {
     private int health;
+    private boolean hasShield;
 
+    //Player stats
     public Player(int[] startingPosition, int pixelSize, int speed, int health) {
         super(startingPosition[0], startingPosition[1], pixelSize, speed);
         this.health = health > 0 ? health : 1;
         this.color = Color.YELLOW;
     }
 
+    //Damage Calculation
     public void takeDamage(int amount) {
+        if (hasShield) {
+            setShield(false);
+            return;
+        }
         health -= amount;
+        System.out.println("Health: " + health);
         if (health <= 0) {
-            die();
+            GameManager.getInstance().playerDied();
         }
     }
 
-    public void die() {
-        GameManager.getInstance().playerDied();
-        this.setFill(Color.WHITE);
+    public void setShield(boolean val) {
+        hasShield = val;
     }
 
-    public void handleKeyEvent(KeyEvent e, boolean stillMoving) {
-        System.out.println(canMove(Direction.up));
-        switch (e.getCode()) {
-            case UP:
-            case W:
-
-                System.out.println(canMove(Direction.up));
-                if (canMove(Direction.up)&&stillMoving) {
-                up.setValue(true);
-                move(Direction.up);}
-                else{
-                    up.setValue(false);
-                }
+    //KeyEvents
+    public void handleKeyEvent(KeyEvent e, boolean pressed) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_D:
+                right = pressed;
                 break;
-            case DOWN:
-            case S:
-
-                System.out.println(canMove(Direction.down));
-                if (canMove(Direction.down)&&stillMoving) {
-                    down.setValue(true);
-                    move(Direction.down);}
-                else{
-                    down.setValue(false);
-                }
+            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_A:
+                left = pressed;
                 break;
-            case LEFT:
-            case A:
-                System.out.println(canMove(Direction.left));
-                if (canMove(Direction.left)&&stillMoving) {
-                    left.setValue(true);
-                    move(Direction.left);}
-                else{
-                    left.setValue(false);
-                }
+            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_S:
+                down = pressed;
                 break;
-            case RIGHT:
-            case D:
-                System.out.println(canMove(Direction.right));
-                if (canMove(Direction.right)&&stillMoving) {
-                    right.setValue(true);
-                    move(Direction.right);}
-                else{
-                    right.setValue(false);
-                }
+            case KeyEvent.VK_UP:
+            case KeyEvent.VK_W:
+                up = pressed;
                 break;
-            default:
+            //default:break;
         }
+    }
+
+    public int getCurrentHealth() {
+        return health;
+    }
+
+    @Override
+    public void render(Graphics g) {
+        if (hasShield) {
+            ((Graphics2D) g).setStroke(new BasicStroke(6));
+            g.setColor(Color.CYAN);
+            ((Graphics2D) g).drawRect(x,y,width,height);
+        }
+        super.render(g);
 
     }
 }
