@@ -72,7 +72,7 @@ public class Level {
                         //System.out.println("Enemy Created"); //Enemy creation;
                         break;
                     case '5':
-                        tiles[i][j] = new SpeedTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize, 2);
+                        tiles[i][j] = new ShieldTile(i * tilePixelSize, j * tilePixelSize, tilePixelSize);
                         break;
                     default:
                         tiles[i][j] = null;
@@ -80,7 +80,6 @@ public class Level {
                 }
             }
         }
-
     }
 
     //Random transformation for a maximum of 3
