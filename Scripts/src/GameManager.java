@@ -41,7 +41,7 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
         currentLevel = levelGenerator.createLevel();
 
         //if player exists make new player, else make new player and set health to old value (cant use old one because of its size possibly being larger then the pixelSize)
-        player = (player == null)?new Player(currentLevel.getStartingPosition(), getPixelSize(), 2, 100)
+        player = (player == null)?new Player(currentLevel.getStartingPosition(), getPixelSize(), 2, 1)
                                 :new Player(currentLevel.getStartingPosition(),getPixelSize(),2,player.getCurrentHealth());
 
         thread = new Thread(this);
@@ -130,7 +130,7 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
 
     public void checkDamage() {
         for (Enemy enemy : currentLevel.getEnemies()) {
-            if (player.intersects(enemy)) {
+            if (player.intersects(enemy)&& !enemy.hitRecently) {
                 enemy.hitRecently=true;
                 player.takeDamage(1);
             }
@@ -149,8 +149,8 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
 
     //Stops game  todo print a message: You died!!!
     public void playerDied() {
-        stop(thread);
-
+        currentLevel.closeLevel();
+        //stop(thread);
     }
 
     //Checks if the next Tile is a Walltile
@@ -181,6 +181,10 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
 
     private boolean isOutOfBounds(int x, int y) {
         return x < 0 || y < 0 || x > getWidth()-getPixelSize() || y > getHeight()-getPixelSize();
+    }
+
+    public void sleepThread(int ms){
+
     }
 
     @Override
