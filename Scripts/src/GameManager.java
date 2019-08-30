@@ -148,8 +148,8 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
 
     //Stops game  todo print a message: You died!!!
     public void playerDied() {
-        stop();
-
+        currentLevel.closeLevel();
+        //stop(thread);
     }
 
     //Checks if the next Tile is a Walltile
@@ -179,6 +179,10 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
 
     private boolean isOutOfBounds(int x, int y) {
         return x < 0 || y < 0 || x > getWidth() - getPixelSize() || y > getHeight() - getPixelSize();
+    }
+
+    public void sleepThread(int ms){
+
     }
 
     @Override
