@@ -7,7 +7,7 @@ import java.awt.image.BufferStrategy;
 
 public class GameManager extends Canvas implements Runnable, KeyListener {
     private static int threadCnt = 0;
-    public static final int WIDTH = 1100, HEIGHT = 800;
+    public static final int WIDTH = 800, HEIGHT = 800;
     private Thread thread;
     private static volatile GameManager instance;
     private LevelGenerator levelGenerator;
@@ -142,7 +142,7 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
 
     public void createPlayer() {
         //if player exists make new player, else make new player and set health to old value (cant use old one because of its size possibly being larger then the pixelSize)
-        player = (player == null) ? new Player(currentLevel.getStartingPosition(), getPixelSize(), 2, 100)
+        player = (player == null) ? new Player(currentLevel.getStartingPosition(), getPixelSize(), 2, 3)
                 : new Player(currentLevel.getStartingPosition(), getPixelSize(), 2, player.getCurrentHealth());
     }
 
@@ -181,9 +181,6 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
         return x < 0 || y < 0 || x > getWidth() - getPixelSize() || y > getHeight() - getPixelSize();
     }
 
-    public void sleepThread(int ms){
-
-    }
 
     @Override
     public void keyTyped(KeyEvent e) {
