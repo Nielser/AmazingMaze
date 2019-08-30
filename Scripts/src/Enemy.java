@@ -62,11 +62,13 @@ public class Enemy extends IntelligentTile {
                 default:
                     oppositeDirection = null;
             }
+
             if(possibleDirections.size()>1){
             possibleDirections.remove(oppositeDirection);
             }
             
         }
+
         return possibleDirections.get(Math.abs(rand.nextInt()) % possibleDirections.size());
 
     }
@@ -82,6 +84,7 @@ public class Enemy extends IntelligentTile {
     }
 
     private void walkInDirection(Direction direction, boolean value) {
+
         switch (direction) {
             case up:
                 up = value;break;
