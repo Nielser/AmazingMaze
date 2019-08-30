@@ -1,5 +1,3 @@
-import jdk.jshell.spi.ExecutionControl;
-
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -131,7 +129,7 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
         }
     }
 
-    //Stops game and starts a new one todo print a message: Level Complete!!!
+    //Stops game and starts a new one
     public void levelFinished() {
         //currentLevel.closeLevel();
         currentLevel = levelGenerator.createLevel();
@@ -146,10 +144,10 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
                 : new Player(currentLevel.getStartingPosition(), getPixelSize(), 2, player.getCurrentHealth());
     }
 
-    //Stops game  todo print a message: You died!!!
+    //Stops game
     public void playerDied() {
         currentLevel.closeLevel();
-        //stop(thread);
+        stop();
     }
 
     //Checks if the next Tile is a Walltile
@@ -170,7 +168,7 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
         Tile[][] tiles = currentLevel.getTiles();
         for (Tile[] row : tiles) {
             for (Tile tile : row) {
-                if (tile instanceof UpgradeTile && player.intersects(tile)) {
+                if (tile instanceof ShieldTile && player.intersects(tile)) {
                     ((ShieldTile) tile).upgrade(player);
                 }
             }
@@ -180,7 +178,6 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
     private boolean isOutOfBounds(int x, int y) {
         return x < 0 || y < 0 || x > getWidth() - getPixelSize() || y > getHeight() - getPixelSize();
     }
-
 
     @Override
     public void keyTyped(KeyEvent e) {

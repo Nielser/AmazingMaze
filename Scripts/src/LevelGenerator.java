@@ -5,7 +5,6 @@ import java.util.Random;
 public class LevelGenerator {
     final static String LEVEL_PATH = "Resources/levels.txt";
     private ArrayList<String> possibleLevels;
-    private String health;
 
     public LevelGenerator() {
         this.possibleLevels = getPossibleLevels();

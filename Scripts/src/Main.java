@@ -1,7 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyEvent;
-
 public class Main {
     public static void main(String[] args) {
         GameManager gm = GameManager.getInstance();
@@ -14,9 +11,6 @@ public class Main {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         gm.start();
-    }
-    public static void restart(){
-        GameManager.getInstance().start();
     }
 }
 

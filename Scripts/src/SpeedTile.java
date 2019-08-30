@@ -10,8 +10,5 @@ public class SpeedTile extends UpgradeTile {
 
     @Override
     public void upgrade(Player player) {
-        player.speed+=speedValue;
-        speedValue=0;
-        color=Color.black;
     }
 }
