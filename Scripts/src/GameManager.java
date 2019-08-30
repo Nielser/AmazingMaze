@@ -37,20 +37,14 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
 
     //Starts a new Game
     public synchronized void start() {
-        threadCnt++;
         currentLevel = levelGenerator.createLevel();
-
-        //if player exists make new player, else make new player and set health to old value (cant use old one because of its size possibly being larger then the pixelSize)
-        player = (player == null)?new Player(currentLevel.getStartingPosition(), getPixelSize(), 2, 3)
-                                :new Player(currentLevel.getStartingPosition(),getPixelSize(),2,player.getCurrentHealth());
-
+        createPlayer();
         thread = new Thread(this);
         thread.start();
     }
 
     //Stops the Thread so render() is not called anymore and the UI isnt redrawn anymore
-    public synchronized void stop(Thread thread) {
-        threadCnt--;
+    public synchronized void stop() {
         try {
             thread.join();
         } catch (InterruptedException e) {
@@ -96,7 +90,7 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
         int fps = 0;
         double timer = System.currentTimeMillis();
         long lastTime = System.nanoTime();
-        double tickSpeed = 360.0;
+        double tickSpeed = 120.0;
         double delta = 0;
         double ns = 1e9 / tickSpeed;
 
@@ -118,7 +112,7 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
                 timer += 1000;
             }
         }
-       stop(thread);
+        stop();
     }
 
     //checks if player is standing on the finish tile
@@ -131,6 +125,7 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
     public void checkDamage() {
         for (Enemy enemy : currentLevel.getEnemies()) {
             if (player.intersects(enemy)) {
+                enemy.hitRecently = true;
                 player.takeDamage(1);
             }
         }
@@ -138,18 +133,23 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
 
     //Stops game and starts a new one todo print a message: Level Complete!!!
     public void levelFinished() {
-        System.out.println("ThreadCount:"+ threadCnt);
-        Thread old = thread;
-        start();
-        stop(old);
-        threadCnt--;
-        System.out.println(threadCnt);
+        //currentLevel.closeLevel();
+        currentLevel = levelGenerator.createLevel();
+        createPlayer();
+
+
+    }
+
+    public void createPlayer() {
+        //if player exists make new player, else make new player and set health to old value (cant use old one because of its size possibly being larger then the pixelSize)
+        player = (player == null) ? new Player(currentLevel.getStartingPosition(), getPixelSize(), 2, 100)
+                : new Player(currentLevel.getStartingPosition(), getPixelSize(), 2, player.getCurrentHealth());
     }
 
     //Stops game  todo print a message: You died!!!
     public void playerDied() {
-        stop(thread);
-
+        currentLevel.closeLevel();
+        //stop(thread);
     }
 
     //Checks if the next Tile is a Walltile
@@ -157,29 +157,32 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
         Tile[][] tiles = currentLevel.getTiles();
         for (Tile[] row : tiles) {
             for (Tile tile : row) {
-                if (tile instanceof WallTile && position.intersects(tile)) {
+                if ((tile instanceof WallTile) && position.intersects(tile)) {
                     return true;
                 }
 
             }
         }
-
         return isOutOfBounds(position.x, position.y);
     }
 
-    public void checkUpgrade(){
+    public void checkUpgrade() {
         Tile[][] tiles = currentLevel.getTiles();
         for (Tile[] row : tiles) {
             for (Tile tile : row) {
                 if (tile instanceof UpgradeTile && player.intersects(tile)) {
-                    ((SpeedTile)tile).upgrade(player);
+                    ((ShieldTile) tile).upgrade(player);
                 }
             }
         }
     }
 
     private boolean isOutOfBounds(int x, int y) {
-        return x < 0 || y < 0 || x > getWidth()-getPixelSize() || y > getHeight()-getPixelSize();
+        return x < 0 || y < 0 || x > getWidth() - getPixelSize() || y > getHeight() - getPixelSize();
+    }
+
+    public void sleepThread(int ms){
+
     }
 
     @Override

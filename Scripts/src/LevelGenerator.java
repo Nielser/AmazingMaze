@@ -27,7 +27,6 @@ public class LevelGenerator {
         ArrayList<String> parsedLevels = new ArrayList<>();
         try {
             parsedLevels = parseLevelFile();
-
         } catch (Exception e) {
             System.err.println("levels.txt does not contain levels or does not exist \n"+e.getMessage());
         }
@@ -50,6 +49,7 @@ public class LevelGenerator {
         }
         return currentLevel;
     }
+
 }
 
 
