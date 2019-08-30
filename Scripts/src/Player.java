@@ -14,6 +14,7 @@ public class Player extends IntelligentTile {
     //Damage Calculation
     public void takeDamage(int amount) {
         health -= amount;
+        System.out.println("Health: "+health);
         if (health <= 0) {
             GameManager.getInstance().playerDied();
         }

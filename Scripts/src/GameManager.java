@@ -41,7 +41,7 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
         currentLevel = levelGenerator.createLevel();
 
         //if player exists make new player, else make new player and set health to old value (cant use old one because of its size possibly being larger then the pixelSize)
-        player = (player == null)?new Player(currentLevel.getStartingPosition(), getPixelSize(), 2, 3)
+        player = (player == null)?new Player(currentLevel.getStartingPosition(), getPixelSize(), 2, 100)
                                 :new Player(currentLevel.getStartingPosition(),getPixelSize(),2,player.getCurrentHealth());
 
         thread = new Thread(this);
@@ -96,7 +96,7 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
         int fps = 0;
         double timer = System.currentTimeMillis();
         long lastTime = System.nanoTime();
-        double tickSpeed = 360.0;
+        double tickSpeed = 120.0;
         double delta = 0;
         double ns = 1e9 / tickSpeed;
 
@@ -131,6 +131,7 @@ public class GameManager extends Canvas implements Runnable, KeyListener {
     public void checkDamage() {
         for (Enemy enemy : currentLevel.getEnemies()) {
             if (player.intersects(enemy)) {
+                enemy.hitRecently=true;
                 player.takeDamage(1);
             }
         }
